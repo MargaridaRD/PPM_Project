@@ -1,6 +1,8 @@
 package projeto
 
 import projeto.Coords.Coords
+import projeto.Point.Point
+
 
 case class Tree(myField: QTree[Coords]) {
 
@@ -9,11 +11,15 @@ case class Tree(myField: QTree[Coords]) {
     lst map (x => x.toList)
   }
 
-  def makeTree(lst: List[List[Int]]): QTree[Coords] = {
+  def makeTree(lst: List[List[Int]], p:Point): QTree[Coords] = {
     lst match {
       case List(List()) => QEmpty
       case List(xs) =>
-      case xss => makeTree(verticalSlice(horizontalSlice(xss)._1)._1)
+      case xss =>QNode((p, ((p._1+xss(1).length-1 ),(p._2 + xss.length-1 ) )),
+          makeTree(verticalSlice(horizontalSlice(xss)._1)._1, p),
+          makeTree(verticalSlice(horizontalSlice(xss)._1)._2,(p._1+xss(1).length/2-1,p._2)),
+          makeTree(verticalSlice(horizontalSlice(xss)._2)._1, (p._1,p._2+xss.length/2-1)),
+          makeTree(verticalSlice(horizontalSlice(xss)._2)._2, ((p._1+xss(1).length/2-1),p._2+xss.length/2-1)))
     }
   }
 
@@ -43,13 +49,12 @@ case class Tree(myField: QTree[Coords]) {
     aux(lst, (Nil,Nil))
 
   }
-*/
   def generate(s: String): QTree[Coords] = {
     val array = ImageUtil.readColorImage(s)
     val list = makeList(array)
 
   }
-
+*/
 
 }
 
