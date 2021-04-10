@@ -2,6 +2,7 @@ package projeto
 
 import projeto.Coords.Coords
 import projeto.Point.Point
+import projeto.Section.Section
 
 
 import scala.annotation.tailrec
@@ -50,7 +51,7 @@ import scala.annotation.tailrec
         case Nil => QEmpty
         case _ =>
           if (verify_pixels(lst)) {
-            QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head)))
+            QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head).toList))
           }
           else {
             QNode((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)),
@@ -79,29 +80,32 @@ import scala.annotation.tailrec
       }
         glue_vertical(l1, l2) ::: glue_vertical(l3, l4)
     }
-  /* def leafToList(leaf: QLeaf): List[List[Int]] ={
-     sacar o ponto
-     calcular o x e o y
-     sacar a cor
-     funcao auxiliar para fazer um for recursivo(maybe 2 porque x e y)
-     meter a cor na list
 
-   } */
-/*
-    def makeBitMap(qTree:QTree):List[List[Int]]={
-      qTree match{
-        case QEmpty=> None
-        case QLeaf(coords, section) => QLeaf
-        case QNode(a, l1, l2, l3, l4) => glue(makeBitMap(l1),makeBitMap(l2),makeBitMap(l3),makeBitMap(l4))
-
+    def leafToList (section: Section): List[List[Int]] = {
+      val numPix= section._1._2._1 - section._1._1._1
+      val  cor =  ImageUtil.encodeRgb(section._2.head,section._2(1),section._2(2))
+      List.fill(numPix^2)(cor).grouped(numPix+1).toList
       }
 
 
- */
+    def makeBitMap(qTree: QTree[Coords]): List[List[Int]]= {
+      qTree match {
+        case QEmpty => Nil
+        case QLeaf(s: Section) => leafToList(s)
+        case QNode(_, l1, l2, l3, l4) => glue(makeBitMap(l1), makeBitMap(l2), makeBitMap(l3), makeBitMap(l4))
+
+      }
+    }
+
+
 
  def main(args: Array[String]): Unit = {
-   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
-   println("teste: " + teste )
+   val cor = ImageUtil.readColorImage("src/projeto/img/objc2_2.png")
+   val teste = makeTree( cor)
+   println("teste_makeTree: " + makeTree( cor) )
+   print("teste_makeBitMap" + makeBitMap(teste))
+
+
  }
 
 
