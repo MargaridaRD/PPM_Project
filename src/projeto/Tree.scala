@@ -101,7 +101,7 @@ import scala.annotation.tailrec
 
  def main(args: Array[String]): Unit = {
    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
-   val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste.", "png")
+   val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste.png", "png")
    println("teste: " + teste )
  }
 
