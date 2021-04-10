@@ -77,10 +77,9 @@ import scala.annotation.tailrec
         glue_vertical(l1, l2) ::: glue_vertical(l3, l4)
     }
   def leafToList(section: Section): List[List[Int]] = {
-    val numPix: Int = section._1._2._1 - section._1._1._1
-    println(section._2)
+    val numPix: Int = section._1._2._1 - section._1._1._1 +1
     val cor = ImageUtil.encodeRgb(section._2.head,section._2(1),section._2(2))
-    List.fill(numPix ^ 2)(cor).grouped(numPix+1).toList
+    List.fill(numPix*numPix)(cor).grouped(numPix).toList
   }
 
     def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= {
@@ -100,8 +99,8 @@ import scala.annotation.tailrec
 
 
  def main(args: Array[String]): Unit = {
-   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
-   val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste.", "png")
+   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/retangulo.png"))
+   val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste3.png", "png")
    println("teste: " + teste )
  }
 
