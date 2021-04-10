@@ -3,9 +3,8 @@ package projeto
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
-
-
 import scala.annotation.tailrec
+
 
  case class Tree(myField: QTree[Coords]) {
 
@@ -43,9 +42,6 @@ import scala.annotation.tailrec
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
   def makeTree(ar: Array[Array[Int]]): QTree[Coords] = {
-
-    val lst = ar.toList map (x => x.toList)
-
     def aux(lst: List[List[Int]], p: Point): QTree[Coords] = {
       lst match {
         case Nil => QEmpty
@@ -62,7 +58,7 @@ import scala.annotation.tailrec
           }
       }
     }
-  aux(lst,(0,0))
+  aux(ar.toList map (x => x.toList),(0,0))
   }
 
  //MAKE BITMAP
@@ -80,32 +76,33 @@ import scala.annotation.tailrec
       }
         glue_vertical(l1, l2) ::: glue_vertical(l3, l4)
     }
+  def leafToList(section: Section): List[List[Int]] = {
+    val numPix: Int = section._1._2._1 - section._1._1._1
+    println(section._2)
+    val cor = ImageUtil.encodeRgb(section._2.head,section._2(1),section._2(2))
+    List.fill(numPix ^ 2)(cor).grouped(numPix+1).toList
+  }
 
-    def leafToList (section: Section): List[List[Int]] = {
-      val numPix= section._1._2._1 - section._1._1._1
-      val  cor =  ImageUtil.encodeRgb(section._2.head,section._2(1),section._2(2))
-      List.fill(numPix^2)(cor).grouped(numPix+1).toList
+    def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= {
+      def aux(qTree:QTree[Coords]):List[List[Int]]= {
+        qTree match {
+          case QEmpty => Nil
+          case QLeaf(s: Section) => leafToList(s)
+          case QNode(_, l1, l2, l3, l4) => glue(aux(l1), aux(l2), aux(l3), aux(l4))
+
+        }
       }
+      aux(qTree).toArray map (x => x.toArray)
 
-
-    def makeBitMap(qTree: QTree[Coords]): List[List[Int]]= {
-      qTree match {
-        case QEmpty => Nil
-        case QLeaf(s: Section) => leafToList(s)
-        case QNode(_, l1, l2, l3, l4) => glue(makeBitMap(l1), makeBitMap(l2), makeBitMap(l3), makeBitMap(l4))
-
-      }
     }
 
 
 
+
  def main(args: Array[String]): Unit = {
-   val cor = ImageUtil.readColorImage("src/projeto/img/objc2_2.png")
-   val teste = makeTree( cor)
-   println("teste_makeTree: " + makeTree( cor) )
-   print("teste_makeBitMap" + makeBitMap(teste))
-
-
+   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
+   val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste.", "png")
+   println("teste: " + teste )
  }
 
 
