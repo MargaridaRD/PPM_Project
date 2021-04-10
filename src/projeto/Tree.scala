@@ -45,6 +45,7 @@ import scala.annotation.tailrec
     def aux(lst: List[List[Int]], p: Point): QTree[Coords] = {
       lst match {
         case Nil => QEmpty
+        case List(List())=> QEmpty
         case _ =>
           if (verify_pixels(lst)) {
             QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head).toList))
@@ -77,9 +78,10 @@ import scala.annotation.tailrec
         glue_vertical(l1, l2) ::: glue_vertical(l3, l4)
     }
   def leafToList(section: Section): List[List[Int]] = {
-    val numPix: Int = section._1._2._1 - section._1._1._1 +1
+    val x: Int = section._1._2._1 - section._1._1._1 + 1
+    val y: Int = section._1._2._2 - section._1._1._2 + 1
     val cor = ImageUtil.encodeRgb(section._2.head,section._2(1),section._2(2))
-    List.fill(numPix*numPix)(cor).grouped(numPix).toList
+    List.fill(x*y)(cor).grouped(x).toList
   }
 
     def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= {
@@ -99,7 +101,7 @@ import scala.annotation.tailrec
 
 
  def main(args: Array[String]): Unit = {
-   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/retangulo.png"))
+   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/retver.png"))
    val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste3.png", "png")
    println("teste: " + teste )
  }
