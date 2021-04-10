@@ -2,8 +2,7 @@ package projeto
 
 import projeto.Coords.Coords
 
-import java.awt.Color
-
 object Section {
+  type Color = List[Int]
   type Section = (Coords, Color)
 }
