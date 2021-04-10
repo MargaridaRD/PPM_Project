@@ -26,14 +26,15 @@ import scala.annotation.tailrec
 
     aux(lst.flatten)
   }
+
     def horizontalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
       lst match {
         case List() => (Nil, Nil)
         case xss => xss.splitAt(xss.length/2)
       }
     }
-    def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
 
+    def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
       lst match {
         case List() => (Nil, Nil)
         case xs::xss => (xs.splitAt(xs.length/2)._1 :: verticalSlice(xss)._1, xs.splitAt(xs.length/2)._2 :: verticalSlice(xss)._2)
@@ -45,6 +46,7 @@ import scala.annotation.tailrec
     def aux(lst: List[List[Int]], p: Point): QTree[Coords] = {
       lst match {
         case Nil => QEmpty
+        case List(List()) => QEmpty
         case _ =>
           if (verify_pixels(lst)) {
             QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head).toList))
@@ -76,11 +78,12 @@ import scala.annotation.tailrec
       }
         glue_vertical(l1, l2) ::: glue_vertical(l3, l4)
     }
+
   def leafToList(section: Section): List[List[Int]] = {
-    val numPix: Int = section._1._2._1 - section._1._1._1
-    println(section._2)
+    val x: Int = section._1._2._1 - section._1._1._1 + 1
+    val y: Int = section._1._2._2 - section._1._1._2 + 1
     val cor = ImageUtil.encodeRgb(section._2.head,section._2(1),section._2(2))
-    List.fill(numPix ^ 2)(cor).grouped(numPix+1).toList
+    List.fill(x*y)(cor).grouped(x).toList
   }
 
     def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= {
@@ -97,12 +100,10 @@ import scala.annotation.tailrec
     }
 
 
-
-
  def main(args: Array[String]): Unit = {
-   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
-   val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste.", "png")
-   println("teste: " + teste )
+   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/4cores15_10_V.png"))
+   val teste2: Unit = ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste3.", "png")
+   println("A qtree é " + teste)
  }
 
 
