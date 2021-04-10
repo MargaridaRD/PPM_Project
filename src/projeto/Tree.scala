@@ -12,9 +12,8 @@ import scala.annotation.tailrec
 
   object Tree{
 
-
+//MAKE TREE
   //verifica se todos os pixeis são iguais para um quadrante
-
   def verify_pixels(lst:List[List[Int]]):Boolean={
   @tailrec
     def aux(l:List[Int]):Boolean = {
@@ -41,7 +40,7 @@ import scala.annotation.tailrec
       }
     }
 
-  // length -1 nao é preciso porque é do quadrante a seguir
+  // length -1 nao é preciso em todos porque é do quadrante a seguir
   def makeTree(ar: Array[Array[Int]]): QTree[Coords] = {
 
     val lst = ar.toList map (x => x.toList)
@@ -51,7 +50,6 @@ import scala.annotation.tailrec
         case Nil => QEmpty
         case _ =>
           if (verify_pixels(lst)) {
-            // QLeaf[Coords, Section] = QLeaf((((0,0):Point,(0,0):Point):Coords, Color.red):Section)
             QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head)))
           }
           else {
@@ -66,6 +64,9 @@ import scala.annotation.tailrec
   aux(lst,(0,0))
   }
 
+ //MAKE BITMAP
+
+    // glue junta verticalmente l1+l2 e l3+l4 e junta horizontalmente o resultado das duas
     def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
 
       def glue_vertical(l1: List[List[Int]], l2: List[List[Int]]): List[List[Int]] = {
@@ -78,6 +79,14 @@ import scala.annotation.tailrec
       }
         glue_vertical(l1, l2) ::: glue_vertical(l3, l4)
     }
+  /* def leafToList(leaf: QLeaf): List[List[Int]] ={
+     sacar o ponto
+     calcular o x e o y
+     sacar a cor
+     funcao auxiliar para fazer um for recursivo(maybe 2 porque x e y)
+     meter a cor na list
+
+   } */
 /*
     def makeBitMap(qTree:QTree):List[List[Int]]={
       qTree match{
