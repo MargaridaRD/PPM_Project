@@ -12,10 +12,7 @@ import scala.annotation.tailrec
 
   object Tree{
 
-  def makeList(ar: Array[Array[Int]]): List[List[Int]] = {
-    val lst = ar.toList
-    lst map (x => x.toList)
-  }
+
   //verifica se todos os pixeis são iguais para um quadrante
 
   def verify_pixels(lst:List[List[Int]]):Boolean={
@@ -45,22 +42,28 @@ import scala.annotation.tailrec
     }
 
   // length -1 nao é preciso porque é do quadrante a seguir
-  def makeTree(lst: List[List[Int]], p:Point): QTree[Coords] = {
-    lst match {
-      case Nil => QEmpty
-      case _ =>
-        if( verify_pixels(lst))  {
-          // QLeaf[Coords, Section] = QLeaf((((0,0):Point,(0,0):Point):Coords, Color.red):Section)
-          QLeaf( ((p,(p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head)))
-        }
-        else {
-          QNode((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)),
-            makeTree(verticalSlice(horizontalSlice(lst)._1)._1, p),
-            makeTree(verticalSlice(horizontalSlice(lst)._1)._2, (p._1 + lst.head.length / 2, p._2)),
-            makeTree(verticalSlice(horizontalSlice(lst)._2)._1, (p._1, p._2 + lst.length / 2)),
-            makeTree(verticalSlice(horizontalSlice(lst)._2)._2, (p._1 + lst.head.length / 2, p._2 + lst.length / 2)))
-        }
+  def makeTree(ar: Array[Array[Int]]): QTree[Coords] = {
+
+    val lst = ar.toList map (x => x.toList)
+
+    def aux(lst: List[List[Int]], p: Point): QTree[Coords] = {
+      lst match {
+        case Nil => QEmpty
+        case _ =>
+          if (verify_pixels(lst)) {
+            // QLeaf[Coords, Section] = QLeaf((((0,0):Point,(0,0):Point):Coords, Color.red):Section)
+            QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head)))
+          }
+          else {
+            QNode((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)),
+              aux(verticalSlice(horizontalSlice(lst)._1)._1, p),
+              aux(verticalSlice(horizontalSlice(lst)._1)._2, (p._1 + lst.head.length / 2, p._2)),
+              aux(verticalSlice(horizontalSlice(lst)._2)._1, (p._1, p._2 + lst.length / 2)),
+              aux(verticalSlice(horizontalSlice(lst)._2)._2, (p._1 + lst.head.length / 2, p._2 + lst.length / 2)))
+          }
+      }
     }
+  aux(lst,(0,0))
   }
 
     def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
@@ -88,8 +91,7 @@ import scala.annotation.tailrec
  */
 
  def main(args: Array[String]): Unit = {
-   val array = makeList( ImageUtil.readColorImage("src/projeto/img/objc2_3.png"))
-   val teste= makeTree(array,(0,0))
+   val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
    println("teste: " + teste )
  }
 
