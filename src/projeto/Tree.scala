@@ -3,7 +3,9 @@ package projeto
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
+
 import scala.annotation.tailrec
+
 
 
 case class Tree(myField: QTree[Coords]) {
@@ -113,7 +115,7 @@ object Tree{
     val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
 
    // val mirror_V = mirror(teste)
-    val teste2= ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste_mirrorV.png", "png")
+    val teste2 :Unit = ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste_mirrorV.png", "png")
   }
 
 
