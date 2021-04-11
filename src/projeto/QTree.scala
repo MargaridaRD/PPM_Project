@@ -1,5 +1,3 @@
 package projeto
 
-trait QTree[+A]{
-
-}
+trait QTree[+A]
