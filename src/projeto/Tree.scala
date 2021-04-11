@@ -104,14 +104,8 @@ object Tree{
     case QNode(v,l1, l2, l3, l4) => v._2._2.max(maximum(l1) max maximum(l2) max maximum(l3) max maximum (l4))
   }
 
-  def changeSection(s: Section, length: Int): Section = {
-    val coords = s._1
-    val p1: Point = (length-coords._2._1, coords._1._2)
-    val p2: Point = (length-coords._1._1, coords._2._2)
-    ((p1, p2), s._2)
-  }
 
-  def changeCoords(coords: Coords, length: Int): Coords = {
+  def swap(coords: Coords, length: Int): Coords = {
     val p1: Point = (length-coords._2._1, coords._1._2)
     val p2: Point = (length-coords._1._1, coords._2._2)
     (p1, p2)
@@ -122,8 +116,8 @@ object Tree{
     def aux(qt:QTree[Coords], max: Int):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(changeSection(s, max))
-      case QNode(value, l1, l2, l3, l4) => QNode(changeCoords(value, max), aux(l2, max), aux(l1, max), aux(l4, max), aux(l3, max))
+      case QLeaf(s: Section) => QLeaf(swap(s._1, max),s._2)
+      case QNode(value, l1, l2, l3, l4) => QNode(swap(value, max), aux(l2, max), aux(l1, max), aux(l4, max), aux(l3, max))
     }
     }
     aux(qt, maximum(qt))
@@ -131,12 +125,12 @@ object Tree{
 
 
   def main(args: Array[String]): Unit = {
-    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/7leafs25_20.png"))
-    println("A ARVORE É " + teste)
-    println("O MAXIMO PIXEL É " + maximum(teste))
+    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/retver.png"))
+    //println("A ARVORE É " + teste)
+   // println("O MAXIMO PIXEL É " + maximum(teste))
     val mirror_V = mirrorV(teste)
-    println("O ESPELHO É " + mirror_V)
-    ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/testeMirr2.png", "png")
+   // println("O ESPELHO É " + mirror_V)
+    ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/testeMirrV.png", "png")
   }
 
 
