@@ -119,6 +119,7 @@ object Tree{
       }
   }
 
+
   //Color
 
   def validatecomponent(i:Int): Int={
