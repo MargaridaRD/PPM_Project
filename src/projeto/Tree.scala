@@ -1,6 +1,8 @@
 package projeto
 
-import projeto.Colour.Colour
+
+
+import projeto.Color.Color
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
@@ -99,24 +101,24 @@ object Tree{
     aux(qTree).toArray map (x => x.toArray)
 
   }
-
- @tailrec
-  def mapColourEffect(f:Colour => Colour, qt:QTree[Coords]):QTree[Coords]={
+  def Sepia
+  def mapColorEffect(f:Color => Color, qt:QTree[Coords]):QTree[Coords]={
      qt match {
        case QEmpty=>QEmpty
        case QLeaf(s:Section) =>QLeaf((s._1,f(s._2)))
-       case  QNode(a, l1, l2, l3, l4)=>mapColourEffect(f,QNode(a, l1, l2, l3, l4))
+       case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect(f,l1), mapColorEffect(f,l2), mapColorEffect(f,l3), mapColorEffect(f,l4))
      }
 
   }
 
 
   def main(args: Array[String]): Unit = {
-    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
+    val teste=makeTree( ImageUtil.readColorImage("src/projeto/img/objc2_2.png"))
 
    // val mirror_V = mirror(teste)
-    val mapColour = mapColourEffect(x=> x, teste)
-   ImageUtil.writeImage(makeBitMap(mapColour), "src/projeto/img/teste_mapColour.png", "png")
+    val teste_mapColor =mapColorEffect(x=> x, teste)
+    println("teste_mapColor:" + teste_mapColor )
+ // ImageUtil.writeImage(makeBitMap(teste_mapColor), "src/projeto/img/teste_mapColor.png", "png")
 
   }
 
