@@ -1,8 +1,10 @@
 package projeto
 
+import projeto.Color.Color
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
+
 import scala.annotation.tailrec
 
 
@@ -98,39 +100,67 @@ object Tree{
   }
 
 
-  def maximum(qt: QTree[Coords]): Int = qt match {
-    case QEmpty => 0
-    case QLeaf(s: Section) => s._1._2._2
-    case QNode(v,l1, l2, l3, l4) => v._2._2.max(maximum(l1) max maximum(l2) max maximum(l3) max maximum (l4))
-  }
-
-
-  def swap(coords: Coords, length: Int): Coords = {
-    val p1: Point = (length-coords._2._1, coords._1._2)
-    val p2: Point = (length-coords._1._1, coords._2._2)
-    (p1, p2)
-  }
-
-
   def mirrorV (qt:QTree[Coords]):QTree[Coords]={
-    def aux(qt:QTree[Coords], max: Int):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(swap(s._1, max),s._2)
-      case QNode(value, l1, l2, l3, l4) => QNode(swap(value, max), aux(l2, max), aux(l1, max), aux(l4, max), aux(l3, max))
+      case QLeaf(s: Section) => QLeaf(s)
+      case QNode(value, l1, l2, l3, l4) => QNode(value, l2, l1, l4, l3)
+    }
+  }
+
+
+  def mirrorH (qt:QTree[Coords]):QTree[Coords]={
+      qt match {
+        case QEmpty => QEmpty
+        case QLeaf(s: Section) => QLeaf(s)
+        case QNode(value, l1, l2, l3, l4) => QNode(value, l3, l4, l1, l2)
+      }
+  }
+
+  def dimensions(qt: QTree[Coords]): (Int, Int) = {
+    qt match {
+      case QNode(value, l1, l2, l3, l4) => (value._2)
+    }
+  }
+
+  def swapCoords(c: Coords): Coords = {
+    ((c._1._1, c._2._2),(c._2._1, c._1._2))
+  }
+
+  def rotateCoords(c: Coords, height: Int): Coords = {
+    ((height - c._1._2, c._1._1), (height - c._2._2, c._2._1))
+  }
+
+
+  def rotateD(qt:QTree[Coords]): QTree[Coords]={
+    def aux(qt_aux: QTree[Coords], height: Int): QTree[Coords] = {
+    qt_aux match {
+      case QEmpty => QEmpty
+      case QLeaf(s: Section) => QLeaf(rotateCoords(swapCoords(s._1), height), s._2)
+      case QNode(value, l1, l2, l3, l4) => QNode(rotateCoords(swapCoords(value), height), aux(l3, height), aux(l1, height), aux(l4, height), aux(l2, height))
     }
     }
-    aux(qt, maximum(qt))
+    aux(qt, dimensions(qt)._2)
+  }
+
+  def mapColorEffect(f:Color => Color, qt:QTree[Coords]):QTree[Coords]={
+    qt match {
+      case QEmpty=>QEmpty
+      case QLeaf(s:Section) =>QLeaf((s._1,f(s._2)))
+      case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect(f,l1), mapColorEffect(f,l2), mapColorEffect(f,l3), mapColorEffect(f,l4))
+    }
+
   }
 
 
   def main(args: Array[String]): Unit = {
-    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/retver.png"))
-    //println("A ARVORE É " + teste)
+    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/4cores15_10_V.png"))
+    println("A ARVORE É " + teste)
    // println("O MAXIMO PIXEL É " + maximum(teste))
-    val mirror_V = mirrorV(teste)
+    //val rotate = rotateD(teste)
    // println("O ESPELHO É " + mirror_V)
-    ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/testeMirrV.png", "png")
+    //ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/testeMirrH.png", "png")
+    ImageUtil.writeImage(makeBitMap(rotateD(teste)), "src/projeto/img/testeRotate3.png", "png")
   }
 
 
