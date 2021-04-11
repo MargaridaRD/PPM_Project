@@ -97,40 +97,34 @@ object Tree{
     aux(qTree).toArray map (x => x.toArray)
   }
 
-
-  def maximum(qt: QTree[Coords]): Int = qt match {
-    case QEmpty => 0
-    case QLeaf(s: Section) => s._1._2._2
-    case QNode(v,l1, l2, l3, l4) => v._2._2.max(maximum(l1) max maximum(l2) max maximum(l3) max maximum (l4))
-  }
-
-
-  def swap(coords: Coords, length: Int): Coords = {
-    val p1: Point = (length-coords._2._1, coords._1._2)
-    val p2: Point = (length-coords._1._1, coords._2._2)
-    (p1, p2)
-  }
-
+//MIRROR
 
   def mirrorV (qt:QTree[Coords]):QTree[Coords]={
-    def aux(qt:QTree[Coords], max: Int):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(swap(s._1, max),s._2)
-      case QNode(value, l1, l2, l3, l4) => QNode(swap(value, max), aux(l2, max), aux(l1, max), aux(l4, max), aux(l3, max))
+      case QLeaf(s: Section) => QLeaf(s)
+      case QNode(value, l1, l2, l3, l4) => QNode(value, mirrorV(l2), mirrorV(l1), mirrorV(l4), mirrorV(l3))
     }
-    }
-    aux(qt, maximum(qt))
+
   }
+
+  def mirrorH (qt:QTree[Coords]):QTree[Coords]={
+      qt match {
+        case QEmpty => QEmpty
+        case QLeaf(s: Section) => QLeaf(s)
+        case QNode(value, l1, l2, l3, l4) => QNode(value, mirrorH(l3), mirrorH(l4), mirrorH(l1), mirrorH(l2))
+      }
+  }
+
+
 
 
   def main(args: Array[String]): Unit = {
-    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/retver.png"))
-    //println("A ARVORE É " + teste)
-   // println("O MAXIMO PIXEL É " + maximum(teste))
-    val mirror_V = mirrorV(teste)
-   // println("O ESPELHO É " + mirror_V)
-    ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/testeMirrV.png", "png")
+    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/7leafs25_20.png"))
+    val mirror_H = mirrorH(teste)
+    ImageUtil.writeImage(makeBitMap(mirror_H), "src/projeto/img/t1.png", "png")
+    val mirror_V = mirrorH(mirrorV(teste))
+    ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/t2.png", "png")
   }
 
 
