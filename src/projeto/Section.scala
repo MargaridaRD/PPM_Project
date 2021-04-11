@@ -1,9 +1,9 @@
 package projeto
 
 import projeto.Coords.Coords
-
+import projeto.Colour.Colour
 
 object Section {
-  type Color=List[Int]
-  type Section = (Coords, Color)
+
+  type Section = (Coords, Colour)
 }
