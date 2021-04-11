@@ -66,7 +66,6 @@ object Tree{
   }
 
   //MAKE BITMAP
-
   // glue junta verticalmente l1+l2 e l3+l4 e junta horizontalmente o resultado das duas
   def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
     def glue_vertical(l1: List[List[Int]], l2: List[List[Int]]): List[List[Int]] = {
@@ -101,7 +100,6 @@ object Tree{
   }
 
 //MIRROR
-
   def mirrorV (qt:QTree[Coords]):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
@@ -119,9 +117,24 @@ object Tree{
       }
   }
 
+  //ROTATE
+  def rotateR (qt:QTree[Coords]):QTree[Coords]={
+    qt match {
+      case QEmpty => QEmpty
+      case QLeaf(s: Section) => QLeaf(s)
+      case QNode(value, l1, l2, l3, l4) => QNode((value._1, (value._2._2,value._2._1)), rotateL(l3), rotateL(l1), rotateL(l4), rotateL(l2))
+      }
+  }
 
-  //Color
+  def rotateL (qt:QTree[Coords]):QTree[Coords]={
+    qt match {
+      case QEmpty => QEmpty
+      case QLeaf(s: Section) => QLeaf(s)
+      case QNode(value, l1, l2, l3, l4) => QNode((value._1, (value._2._2,value._2._1)), rotateL(l2), rotateL(l4), rotateL(l1), rotateL(l3))
+    }
+  }
 
+  //EFFECTS
   def validatecomponent(i:Int): Int={
     i match {
       case i if i < 0 => 0
@@ -139,17 +152,15 @@ object Tree{
 
   }
   def contrast (c:Color): Color={
-    val lum =ImageUtil.luminance(c.head,c(1),c(2))
+    //val lum =ImageUtil.luminance(c.head,c(1),c(2))
     //usando luminance
-   //List (validatecomponent(c.head +lum),validatecomponent(c(1) +lum), validatecomponent(c(2) +lum))
+    //List (validatecomponent(c.head +lum),validatecomponent(c(1) +lum), validatecomponent(c(2) +lum))
     // List (validatecomponent(c.head -lum),validatecomponent(c(1) -lum), validatecomponent(c(2) -lum))
-
     //255 - a cor
     List( 255-c.head, 255-c(1), 255-c(2))
-
   }
-  //Noise tem valores Random de 0 e 122 (Ainda em Discussão) é suposto mudar a cor de cada pixel ou de cada QLeaf
 
+  //Noise tem valores Random de 0 e 122 (Ainda em Discussão) é suposto mudar a cor de cada pixel ou de cada QLeaf
   def noise (c:Color): Color={
     val random_noise= Random.nextInt(122)
 
@@ -187,8 +198,6 @@ object Tree{
 
     val teste_noise= mapColorEffect(noise, teste)
     ImageUtil.writeImage(makeBitMap(teste_noise), "src/projeto/img/teste_noise.png", "png")
-
-
 
   }
 
