@@ -1,6 +1,6 @@
 package projeto
 
-import projeto.Color.Color
+
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
@@ -8,7 +8,10 @@ import projeto.Section.Section
 import scala.annotation.tailrec
 
 
-case class Tree(myField: QTree[Coords]) {
+
+case class Tree(myField: Array[Array[Int]]) {
+  def makeTree(): QTree[Coords] = Tree.makeTree(this.myField)
+  def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= Tree.makeBitMap(qTree)
 
 }
 
@@ -34,32 +37,20 @@ object Tree{
       case xss => xss.splitAt(xss.length/2)
     }
   }
-
-
   def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
-    def rSlice(lst: List[List[Int]]): List[List[Int]] = {
-      lst match {
-        case List() => Nil
-        case xs :: xss => (xs.splitAt(xs.length / 2)._2 :: rSlice(xss))
-      }
+  def rSlice(lst: List[List[Int]]):( List[List[Int]])= {
+    lst match {
+      case List() => Nil
+      case xs :: xss => (xs.splitAt(xs.length / 2)._2 :: rSlice(xss))
     }
-    def lSlice(lst: List[List[Int]]):( List[List[Int]])={
+  }
+  def lSlice(lst: List[List[Int]]):( List[List[Int]])={
       lst match {
         case List() => Nil
         case xs::xss => (xs.splitAt(xs.length/2)._1 ::lSlice(xss))
       }
     }
     (lSlice(lst),rSlice(lst))
-  }
-
-  def verticalSlice2(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
-    def aux(lst: List[List[Int]], side: Int): List[List[Int]] = {
-    lst match {
-      case List() => Nil
-      case xs :: xss => (xs.splitAt(xs.length / 2)._1 :: aux(xss, side))
-    }
-    }
-    (aux(lst, 1), aux(lst, 2))
   }
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
@@ -85,7 +76,6 @@ object Tree{
   }
 
   //MAKE BITMAP
-
   // glue junta verticalmente l1+l2 e l3+l4 e junta horizontalmente o resultado das duas
   def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
     def glue_vertical(l1: List[List[Int]], l2: List[List[Int]]): List[List[Int]] = {
@@ -120,68 +110,10 @@ object Tree{
   }
 
 
-  def mirrorV (qt:QTree[Coords]):QTree[Coords]={
-    qt match {
-      case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(s)
-      case QNode(value, l1, l2, l3, l4) => QNode(value, l2, l1, l4, l3)
-    }
-  }
 
 
-  def mirrorH (qt:QTree[Coords]):QTree[Coords]={
-      qt match {
-        case QEmpty => QEmpty
-        case QLeaf(s: Section) => QLeaf(s)
-        case QNode(value, l1, l2, l3, l4) => QNode(value, l3, l4, l1, l2)
-      }
-  }
-
-  def dimensions(qt: QTree[Coords]): (Int, Int) = {
-    qt match {
-      case QNode(value, l1, l2, l3, l4) => (value._2)
-    }
-  }
-
-  def swapCoords(c: Coords): Coords = {
-    ((c._1._1, c._2._2),(c._2._1, c._1._2))
-  }
-
-  def rotateCoords(c: Coords, height: Int): Coords = {
-    ((height - c._1._2, c._1._1), (height - c._2._2, c._2._1))
-  }
 
 
-  def rotateD(qt:QTree[Coords]): QTree[Coords]={
-    def aux(qt_aux: QTree[Coords], height: Int): QTree[Coords] = {
-    qt_aux match {
-      case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(rotateCoords(swapCoords(s._1), height), s._2)
-      case QNode(value, l1, l2, l3, l4) => QNode(rotateCoords(swapCoords(value), height), aux(l3, height), aux(l1, height), aux(l4, height), aux(l2, height))
-    }
-    }
-    aux(qt, dimensions(qt)._2)
-  }
-
-  def mapColorEffect(f:Color => Color, qt:QTree[Coords]):QTree[Coords]={
-    qt match {
-      case QEmpty=>QEmpty
-      case QLeaf(s:Section) =>QLeaf((s._1,f(s._2)))
-      case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect(f,l1), mapColorEffect(f,l2), mapColorEffect(f,l3), mapColorEffect(f,l4))
-    }
-
-  }
-
-
-  def main(args: Array[String]): Unit = {
-    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/4cores15_10_V.png"))
-    println("A ARVORE É " + teste)
-   // println("O MAXIMO PIXEL É " + maximum(teste))
-    //val rotate = rotateD(teste)
-   // println("O ESPELHO É " + mirror_V)
-    //ImageUtil.writeImage(makeBitMap(mirror_V), "src/projeto/img/testeMirrH.png", "png")
-    ImageUtil.writeImage(makeBitMap(rotateD(teste)), "src/projeto/img/testeRotate3.png", "png")
-  }
 
 
 }
