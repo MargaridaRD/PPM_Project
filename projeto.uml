@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>projeto</OriginalElement>
+  <nodes>
+    <node x="285.0" y="233.0">projeto.Color</node>
+    <node x="261.0" y="309.0">projeto.Tree</node>
+    <node x="162.0" y="157.0">projeto.QEmpty</node>
+    <node x="157.0" y="81.0">projeto.QEmpty$</node>
+    <node x="0.0" y="81.0">projeto.QLeaf</node>
+    <node x="0.0" y="233.0">projeto.Coords</node>
+    <node x="0.0" y="309.0">projeto.Point</node>
+    <node x="312.0" y="157.0">projeto.Section</node>
+    <node x="0.0" y="157.0">projeto.ImageUtil</node>
+    <node x="144.0" y="233.0">projeto.Effects</node>
+    <node x="131.0" y="309.0">projeto.Main</node>
+    <node x="152.5" y="0.0">projeto.QTree</node>
+    <node x="290.0" y="81.0">projeto.QNode</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="projeto.QEmpty$" target="projeto.QTree" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="projeto.QLeaf" target="projeto.QTree" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="68.5" y="56.0" />
+      <point x="213.5" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="projeto.QNode" target="projeto.QTree" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="355.0" y="56.0" />
+      <point x="213.5" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="272.0" y="284.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

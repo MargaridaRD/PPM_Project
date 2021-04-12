@@ -98,15 +98,10 @@ object Effects {
 
   }
   def contrast (c:Color): Color={
-    //val lum =ImageUtil.luminance(c.head,c(1),c(2))
-    //usando luminance
-    //List (validatecomponent(c.head +lum),validatecomponent(c(1) +lum), validatecomponent(c(2) +lum))
-    // List (validatecomponent(c.head -lum),validatecomponent(c(1) -lum), validatecomponent(c(2) -lum))
-    //255 - a cor
     List( 255-c.head, 255-c(1), 255-c(2))
   }
 
-  //Noise tem valores Random de 0 e 122 (Ainda em Discussão) é suposto mudar a cor de cada pixel ou de cada QLeaf
+  //Noise tem valores Random de 0 e 122
   def noise (c:Color): Color={
     val random_noise= Random.nextInt(122)
 
