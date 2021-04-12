@@ -36,11 +36,19 @@ object Tree{
     }
   }
   def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
-
+  def rSlice(lst: List[List[Int]]):( List[List[Int]])= {
     lst match {
-      case List() => (Nil, Nil)
-      case xs::xss => (xs.splitAt(xs.length/2)._1 :: verticalSlice(xss)._1, xs.splitAt(xs.length/2)._2 :: verticalSlice(xss)._2)
+      case List() => Nil
+      case xs :: xss => (xs.splitAt(xs.length / 2)._2 :: rSlice(xss))
     }
+  }
+  def lSlice(lst: List[List[Int]]):( List[List[Int]])={
+      lst match {
+        case List() => Nil
+        case xs::xss => (xs.splitAt(xs.length/2)._1 ::lSlice(xss))
+      }
+    }
+    (lSlice(lst),rSlice(lst))
   }
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
@@ -118,12 +126,28 @@ object Tree{
   }
 
   //ROTATE
-  def rotateR (qt:QTree[Coords]):QTree[Coords]={
+  def dimensions(qt: QTree[Coords]): (Int, Int) = {
     qt match {
-      case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(s)
-      case QNode(value, l1, l2, l3, l4) => QNode((value._1, (value._2._2,value._2._1)), rotateL(l3), rotateL(l1), rotateL(l4), rotateL(l2))
+      case QNode(value, l1, l2, l3, l4) => (value._2)
+    }
+  }
+
+  def swapCoords(c: Coords): Coords = {
+    ((c._1._1, c._2._2),(c._2._1, c._1._2))
+  }
+
+  def rotateCoords(c: Coords, height: Int): Coords = {
+    ((height - c._1._2, c._1._1), (height - c._2._2, c._2._1))
+  }
+  def rotateD(qt:QTree[Coords]): QTree[Coords]={
+    def aux(qt_aux: QTree[Coords], height: Int): QTree[Coords] = {
+      qt_aux match {
+        case QEmpty => QEmpty
+        case QLeaf(s: Section) => QLeaf(rotateCoords(swapCoords(s._1), height), s._2)
+        case QNode(value, l1, l2, l3, l4) => QNode(rotateCoords(swapCoords(value), height), aux(l3, height), aux(l1, height), aux(l4, height), aux(l2, height))
       }
+    }
+    aux(qt, dimensions(qt)._2)
   }
 
   def rotateL (qt:QTree[Coords]):QTree[Coords]={
@@ -182,8 +206,8 @@ object Tree{
 
 
   def main(args: Array[String]): Unit = {
-    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/7leafs20_20.png"))
-
+    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/rita.jpeg"))
+    ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/rr.png", "png")
     //val mirror_H = mirrorH(teste)
     //ImageUtil.writeImage(makeBitMap(mirror_H), "src/projeto/img/t1.png", "png")
 
@@ -196,8 +220,8 @@ object Tree{
     //val teste_contrast= mapColorEffect(contrast, teste)
     //ImageUtil.writeImage(makeBitMap(teste_contrast), "src/projeto/img/teste_contrast.png", "png")
 
-    val teste_noise= mapColorEffect(noise, teste)
-    ImageUtil.writeImage(makeBitMap(teste_noise), "src/projeto/img/teste_noise.png", "png")
+//    val teste_noise= mapColorEffect(noise, teste)
+//    ImageUtil.writeImage(makeBitMap(teste_noise), "src/projeto/img/teste_noise.png", "png")
 
   }
 
