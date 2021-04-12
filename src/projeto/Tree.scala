@@ -17,27 +17,18 @@ object Tree{
 
   //MAKE TREE
   //verifica se todos os pixeis são iguais para um quadrante
-  /*
-  @tailrec
-  def verify_pixels(lst:List[List[Int]]):Boolean={
-      lst match {
-        case Nil => true
-        case List(x) =>  if ( x.forall(_ == x.head) ) true else false
-        case y :: ys :: yss => if ( y.forall(_ == y.head) && y == ys) verify_pixels(ys::yss) else false
-      }
-  }*/
   def verify_pixels(lst:List[List[Int]]):Boolean={
     @tailrec
     def aux(l:List[Int]):Boolean = {
       l match {
         case Nil => true
-        case List()=> true
+        case List(_)=> true
         case y :: ys :: yss => if (y == ys) aux(ys::yss) else false
       }
     }
+
     aux(lst.flatten)
   }
-
   def horizontalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
     lst match {
       case List() => (Nil, Nil)
@@ -45,14 +36,19 @@ object Tree{
     }
   }
   def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
+  def rSlice(lst: List[List[Int]]):( List[List[Int]])= {
     lst match {
-      case List() => (Nil, Nil)
-
-      case xs::xss =>{
-        val x = verticalSlice(xss)
-        (xs.splitAt(xs.length/2)._1 :: x._1, xs.splitAt(xs.length/2)._2 :: xzz._2)
+      case List() => Nil
+      case xs :: xss => (xs.splitAt(xs.length / 2)._2 :: rSlice(xss))
+    }
+  }
+  def lSlice(lst: List[List[Int]]):( List[List[Int]])={
+      lst match {
+        case List() => Nil
+        case xs::xss => (xs.splitAt(xs.length/2)._1 ::lSlice(xss))
       }
     }
+    (lSlice(lst),rSlice(lst))
   }
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
@@ -66,14 +62,11 @@ object Tree{
             QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head).toList))
           }
           else {
-            val ver =verticalSlice(lst)
-            val hor1 = horizontalSlice(ver._1)
-            val hor2 = horizontalSlice(ver._2)
             QNode((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)),
-              aux(hor1._1, p),
-              aux(hor2._1, (p._1 + lst.head.length / 2, p._2)),
-              aux(hor1._2, (p._1, p._2 + lst.length / 2)),
-              aux(hor2._2, (p._1 + lst.head.length / 2, p._2 + lst.length / 2)))
+              aux(verticalSlice(horizontalSlice(lst)._1)._1, p),
+              aux(verticalSlice(horizontalSlice(lst)._1)._2, (p._1 + lst.head.length / 2, p._2)),
+              aux(verticalSlice(horizontalSlice(lst)._2)._1, (p._1, p._2 + lst.length / 2)),
+              aux(verticalSlice(horizontalSlice(lst)._2)._2, (p._1 + lst.head.length / 2, p._2 + lst.length / 2)))
           }
       }
     }
@@ -81,7 +74,6 @@ object Tree{
   }
 
   //MAKE BITMAP
-
   // glue junta verticalmente l1+l2 e l3+l4 e junta horizontalmente o resultado das duas
   def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
     def glue_vertical(l1: List[List[Int]], l2: List[List[Int]]): List[List[Int]] = {
@@ -115,8 +107,7 @@ object Tree{
     aux(qTree).toArray map (x => x.toArray)
   }
 
-  //MIRROR
-
+//MIRROR
   def mirrorV (qt:QTree[Coords]):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
@@ -127,37 +118,47 @@ object Tree{
   }
 
   def mirrorH (qt:QTree[Coords]):QTree[Coords]={
-    val x=2
-    val y=3
-    qt match {
+      qt match {
+        case QEmpty => QEmpty
+        case QLeaf(s: Section) => QLeaf(s)
+        case QNode(value, l1, l2, l3, l4) => QNode(value, mirrorH(l3), mirrorH(l4), mirrorH(l1), mirrorH(l2))
+      }
+  }
 
-      case QEmpty => QEmpty
-      //case QLeaf(s: Section) => QLeaf((point_1_x,poit_1_y),(point_2_x,point_2_y),s._2)
-      case QLeaf(s: Section) => QLeaf((s._1._1,s._1._1),(s._1._2,s._1._2),s._2)
-      case QNode(value, l1, l2, l3, l4) => QNode(value, mirrorH(l3), mirrorH(l4), mirrorH(l1), mirrorH(l2))
+  //ROTATE
+  def dimensions(qt: QTree[Coords]): (Int, Int) = {
+    qt match {
+      case QNode(value, l1, l2, l3, l4) => (value._2)
     }
   }
 
-  def rotateR (qt:QTree[Coords]):QTree[Coords]={
-    qt match {
-
-      case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf()
-      case QNode(value, l1, l2, l3, l4) => QNode((value._1, (value._2._2,value._2._1)), rotateL(l2), rotateL(l4), rotateL(l1), rotateL(l3))
-    }
+  def swapCoords(c: Coords): Coords = {
+    ((c._1._1, c._2._2),(c._2._1, c._1._2))
   }
 
+  def rotateCoords(c: Coords, height: Int): Coords = {
+    ((height - c._1._2, c._1._1), (height - c._2._2, c._2._1))
+  }
+  def rotateD(qt:QTree[Coords]): QTree[Coords]={
+    def aux(qt_aux: QTree[Coords], height: Int): QTree[Coords] = {
+      qt_aux match {
+        case QEmpty => QEmpty
+        case QLeaf(s: Section) => QLeaf(rotateCoords(swapCoords(s._1), height), s._2)
+        case QNode(value, l1, l2, l3, l4) => QNode(rotateCoords(swapCoords(value), height), aux(l3, height), aux(l1, height), aux(l4, height), aux(l2, height))
+      }
+    }
+    aux(qt, dimensions(qt)._2)
+  }
 
   def rotateL (qt:QTree[Coords]):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf()
+      case QLeaf(s: Section) => QLeaf(s)
       case QNode(value, l1, l2, l3, l4) => QNode((value._1, (value._2._2,value._2._1)), rotateL(l2), rotateL(l4), rotateL(l1), rotateL(l3))
     }
   }
 
-  //Color
-
+  //EFFECTS
   def validatecomponent(i:Int): Int={
     i match {
       case i if i < 0 => 0
@@ -171,21 +172,19 @@ object Tree{
     val depth = 20
     val intensity = 30
     val avg= (c.head +c(1) +c(2))/3
-    List (validatecomponent(avg + depth*2),validatecomponent(avg+ depth), validatecomponent(avg-intensity))
+   List (validatecomponent(avg + depth*2),validatecomponent(avg+ depth), validatecomponent(avg-intensity))
 
   }
   def contrast (c:Color): Color={
-    // val lum =ImageUtil.luminance(c.head,c(1),c(2))
+    //val lum =ImageUtil.luminance(c.head,c(1),c(2))
     //usando luminance
     //List (validatecomponent(c.head +lum),validatecomponent(c(1) +lum), validatecomponent(c(2) +lum))
     // List (validatecomponent(c.head -lum),validatecomponent(c(1) -lum), validatecomponent(c(2) -lum))
-
     //255 - a cor
     List( 255-c.head, 255-c(1), 255-c(2))
-
   }
-  //Noise tem valores Random de 0 e 122 (Ainda em Discussão) é suposto mudar a cor de cada pixel ou de cada QLeaf
 
+  //Noise tem valores Random de 0 e 122 (Ainda em Discussão) é suposto mudar a cor de cada pixel ou de cada QLeaf
   def noise (c:Color): Color={
     val random_noise= Random.nextInt(122)
 
@@ -207,10 +206,8 @@ object Tree{
 
 
   def main(args: Array[String]): Unit = {
-    val teste = makeTree(ImageUtil.readColorImage("src/projeto/img/400.png"))
-    println("teste" + teste)
-    ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/teste_400.png", "png")
-
+    val teste = makeTree( ImageUtil.readColorImage("src/projeto/img/rita.jpeg"))
+    ImageUtil.writeImage(makeBitMap(teste), "src/projeto/img/rr.png", "png")
     //val mirror_H = mirrorH(teste)
     //ImageUtil.writeImage(makeBitMap(mirror_H), "src/projeto/img/t1.png", "png")
 
@@ -223,18 +220,10 @@ object Tree{
     //val teste_contrast= mapColorEffect(contrast, teste)
     //ImageUtil.writeImage(makeBitMap(teste_contrast), "src/projeto/img/teste_contrast.png", "png")
 
-    //val teste_noise= mapColorEffect(noise, teste)
-    //ImageUtil.writeImage(makeBitMap(teste_noise), "src/projeto/img/teste_noise.png", "png")
-
-    //  val rotate_R = rotateR(teste)
-    // ImageUtil.writeImage(makeBitMap(rotate_R), "src/projeto/img/rotate_R.png", "png")
-
-    //val rotate_L = rotateL(teste)
-    //ImageUtil.writeImage(makeBitMap(rotate_L), "src/projeto/img/rotate_L.png", "png")
-
+//    val teste_noise= mapColorEffect(noise, teste)
+//    ImageUtil.writeImage(makeBitMap(teste_noise), "src/projeto/img/teste_noise.png", "png")
 
   }
-
 
 
 }
