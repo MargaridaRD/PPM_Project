@@ -34,12 +34,32 @@ object Tree{
       case xss => xss.splitAt(xss.length/2)
     }
   }
-  def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
 
-    lst match {
-      case List() => (Nil, Nil)
-      case xs::xss => (xs.splitAt(xs.length/2)._1 :: verticalSlice(xss)._1, xs.splitAt(xs.length/2)._2 :: verticalSlice(xss)._2)
+
+  def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
+    def rSlice(lst: List[List[Int]]): List[List[Int]] = {
+      lst match {
+        case List() => Nil
+        case xs :: xss => (xs.splitAt(xs.length / 2)._2 :: rSlice(xss))
+      }
     }
+    def lSlice(lst: List[List[Int]]):( List[List[Int]])={
+      lst match {
+        case List() => Nil
+        case xs::xss => (xs.splitAt(xs.length/2)._1 ::lSlice(xss))
+      }
+    }
+    (lSlice(lst),rSlice(lst))
+  }
+
+  def verticalSlice2(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
+    def aux(lst: List[List[Int]], side: Int): List[List[Int]] = {
+    lst match {
+      case List() => Nil
+      case xs :: xss => (xs.splitAt(xs.length / 2)._1 :: aux(xss, side))
+    }
+    }
+    (aux(lst, 1), aux(lst, 2))
   }
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
