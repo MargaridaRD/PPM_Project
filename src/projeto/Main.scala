@@ -2,7 +2,7 @@ package projeto
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val tree:Tree = Tree(ImageUtil.readColorImage("src/projeto/img/169x300.png"))
+    val tree:Tree= Tree(ImageUtil.readColorImage("src/projeto/img/169x300.png"))
     val teste_makeTree = tree.makeTree()
     val teste_makeBitMap = tree.makeBitMap(teste_makeTree)
     ImageUtil.writeImage(teste_makeBitMap, "src/projeto/img/teste_makeBitMap.png", "png")

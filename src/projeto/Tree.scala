@@ -9,9 +9,9 @@ import scala.annotation.tailrec
 
 
 
-case class Tree(myField: Array[Array[Int]]) {
+case class Tree(myField: Bitmap) {
   def makeTree(): QTree[Coords] = Tree.makeTree(this.myField)
-  def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= Tree.makeBitMap(qTree)
+  def makeBitMap(qTree:QTree[Coords]):Bitmap= Tree.makeBitMap(qTree)
 
 }
 
@@ -54,7 +54,7 @@ object Tree{
   }
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
-  def makeTree(ar: Array[Array[Int]]): QTree[Coords] = {
+  def makeTree(bm: Bitmap): QTree[Coords] = {
     def aux(lst: List[List[Int]], p: Point): QTree[Coords] = {
       lst match {
         case Nil => QEmpty
@@ -72,7 +72,7 @@ object Tree{
           }
       }
     }
-    aux(ar.toList map (x => x.toList),(0,0))
+    aux(bm.array.toList map (x => x.toList),(0,0))
   }
 
   //MAKE BITMAP
@@ -97,7 +97,7 @@ object Tree{
     List.fill(x*y)(cor).grouped(x).toList
   }
 
-  def makeBitMap(qTree:QTree[Coords]):Array[Array[Int]]= {
+  def makeBitMap(qTree:QTree[Coords]):Bitmap= {
     def aux(qTree:QTree[Coords]):List[List[Int]]= {
       qTree match {
         case QEmpty => Nil
@@ -106,7 +106,8 @@ object Tree{
 
       }
     }
-    aux(qTree).toArray map (x => x.toArray)
+
+    (aux(qTree).toArray map (x => x.toArray)).asInstanceOf[Bitmap]
   }
 
 
