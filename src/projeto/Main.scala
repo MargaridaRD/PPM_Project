@@ -2,32 +2,31 @@ package projeto
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val tree:Tree= Tree(ImageUtil.readColorImage("src/projeto/img/169x300.png"))
-    val teste_makeTree = tree.makeTree()
-    val teste_makeBitMap = tree.makeBitMap(teste_makeTree)
-    ImageUtil.writeImage(teste_makeBitMap, "src/projeto/img/teste_makeBitMap.png", "png")
+    val tree:Tree= Tree("src/projeto/img/rita.jpeg")
+    val teste_makeTree = tree.imageToTree()
+//    tree.treeToImage("src/projeto/img/teste.png","png",teste_makeTree)
 
     //////Efeitos////////////
-    //val effects:Effects = Effects(teste_makeTree)
+    val effects:Effects = Effects(teste_makeTree)
     //mirrorV
-    //ImageUtil.writeImage(tree.makeBitMap(effects.mirrorV()), "src/projeto/img/mirrorV.png", "png")
-
+    tree.treeToImage( "src/projeto/img/mirrorV.png", "png",effects.mirrorV())
     //mirrorH
-    //ImageUtil.writeImage(tree.makeBitMap(effects.mirrorH()), "src/projeto/img/mirrorH.png", "png")
-    //rotateR
-    //ImageUtil.writeImage(tree.makeBitMap(effects.rotateR()), "src/projeto/img/rotateR.png", "png")
-
-    //rotateL
-    //ImageUtil.writeImage(tree.makeBitMap(effects.rotateL()), "src/projeto/img/rotateL.png", "png")
-
-    //mapColorEffect
-
-    //sepia
-   // ImageUtil.writeImage(tree.makeBitMap(effects.mapColorEffect(effects.sepia)), "src/projeto/img/sepia.png", "png")
-    //noise
-   // ImageUtil.writeImage(tree.makeBitMap(effects.mapColorEffect(effects.noise)), "src/projeto/img/noise.png", "png")
-    //contrast
-   // ImageUtil.writeImage(tree.makeBitMap(effects.mapColorEffect(effects.contrast)), "src/projeto/img/contrast.png", "png")
+    tree.treeToImage( "src/projeto/img/mirrorH.png", "png",effects.mirrorH())
+//    //rotateR
+//    tree.treeToImage( "src/projeto/img/rotateR.png", "png",effects.rotateR())
+//    //rotateL
+//    tree.treeToImage( "src/projeto/img/rotateR.png", "png",effects.rotateL())
+//
+//    //mapColorEffect
+//
+//    //sepia
+//    tree.treeToImage( "src/projeto/img/sepia.png", "png",effects.mapColorEffect(effects.sepia))
+//    //noise
+//    tree.treeToImage( "src/projeto/img/noise.png", "png",effects.mapColorEffect(effects.noise))
+//    //contrast
+//    tree.treeToImage( "src/projeto/img/contrast.png", "png",effects.mapColorEffect(effects.contrast))
+//    //contrast2
+//    tree.treeToImage( "src/projeto/img/contrast2.png", "png",effects.mapColorEffect(effects.contrast2)
 
   }
 

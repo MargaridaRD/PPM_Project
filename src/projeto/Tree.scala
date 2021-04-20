@@ -1,6 +1,7 @@
 package projeto
 
 
+import projeto.Bitmap.Bitmap
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
@@ -9,15 +10,21 @@ import scala.annotation.tailrec
 
 
 
-case class Tree(myField: Bitmap) {
-  def makeTree(): QTree[Coords] = Tree.makeTree(this.myField)
-  def makeBitMap(qTree:QTree[Coords]):Bitmap= Tree.makeBitMap(qTree)
+case class Tree(myField: String) {
+  def imageToTree(): QTree[Coords] = Tree.imageToTree(this.myField)
+  def treeToImage(path:String, form:String ,tree:QTree[Coords]):Unit = Tree.treeToImage(path,form,tree)
 
 }
 
 object Tree{
 
   //MAKE TREE
+
+  def imageToTree(string: String) :QTree[Coords] = {
+    val ar=ImageUtil.readColorImage(string)
+    makeTree(ar)
+
+  }
   //verifica se todos os pixeis são iguais para um quadrante
   def verify_pixels(lst:List[List[Int]]):Boolean={
     @tailrec
@@ -38,16 +45,16 @@ object Tree{
     }
   }
   def verticalSlice(lst: List[List[Int]]): (List[List[Int]], List[List[Int]]) = {
-  def rSlice(lst: List[List[Int]]):( List[List[Int]])= {
+  def rSlice(lst: List[List[Int]]): List[List[Int]]= {
     lst match {
       case List() => Nil
-      case xs :: xss => (xs.splitAt(xs.length / 2)._2 :: rSlice(xss))
+      case xs :: xss => xs.splitAt(xs.length / 2)._2 :: rSlice(xss)
     }
   }
-  def lSlice(lst: List[List[Int]]):( List[List[Int]])={
+  def lSlice(lst: List[List[Int]]): List[List[Int]]={
       lst match {
         case List() => Nil
-        case xs::xss => (xs.splitAt(xs.length/2)._1 ::lSlice(xss))
+        case xs::xss => xs.splitAt(xs.length/2)._1 ::lSlice(xss)
       }
     }
     (lSlice(lst),rSlice(lst))
@@ -72,10 +79,14 @@ object Tree{
           }
       }
     }
-    aux(bm.array.toList map (x => x.toList),(0,0))
+    aux(bm.toList map (x => x.toList),(0,0))
   }
 
   //MAKE BITMAP
+  def treeToImage(path: String,form:String, tree: QTree[Coords]): Unit ={
+    val m =makeBitMap(tree)
+    ImageUtil.writeImage(m.array, path, form)
+  }
   // glue junta verticalmente l1+l2 e l3+l4 e junta horizontalmente o resultado das duas
   def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
     def glue_vertical(l1: List[List[Int]], l2: List[List[Int]]): List[List[Int]] = {
@@ -107,7 +118,7 @@ object Tree{
       }
     }
 
-    (aux(qTree).toArray map (x => x.toArray)).asInstanceOf[Bitmap]
+    aux(qTree).toArray map (x => x.toArray)
   }
 
 

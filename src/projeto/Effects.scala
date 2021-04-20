@@ -2,6 +2,7 @@ package projeto
 
 import projeto.Color.Color
 import projeto.Coords.Coords
+import projeto.Point.Point
 import projeto.Section.Section
 
 import scala.util.Random
@@ -15,26 +16,38 @@ case class Effects(myField:QTree[Coords]){
   def mapColorEffect(f:Color => Color):QTree[Coords] =Effects.mapColorEffect(f,this.myField)
   def noise (c:Color): Color=Effects.noise(c)
   def contrast (c:Color): Color=Effects.contrast(c)
+  def contrast2 (c:Color): Color=Effects.contrast2(c)
   def sepia (c:Color): Color=Effects.sepia(c)
 }
 
 object Effects {
 
   //MIRROR
-  def mirrorV (qt:QTree[Coords]):QTree[Coords]={
-    qt match {
-      case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(s)
-      case QNode(value, l1, l2, l3, l4) => QNode(value, mirrorV(l2), mirrorV(l1), mirrorV(l4), mirrorV(l3))
-    }
-
+  def changeCoords(coords: Coords, length: Int): Coords = {
+    val p1: Point = (length-coords._2._1, coords._1._2)
+    val p2: Point = (length-coords._1._1, coords._2._2)
+    (p1, p2)
+  }
+  def maximum(qt: QTree[Coords]): Int = qt match {
+    case QEmpty => 0
+    case QLeaf(s: Section) => s._1._2._2
+    case QNode(v,l1, l2, l3, l4) => v._2._2.max(maximum(l1) max maximum(l2) max maximum(l3) max maximum (l4))
+  }
+  def mirrorV (qt:QTree[Coords]):QTree[Coords]= {
+    val max =maximum(qt)
+        qt match {
+          case QEmpty => QEmpty
+          case QLeaf(s: Section) => QLeaf(changeCoords(s._1, max),s._2)
+          case QNode(value, l1, l2, l3, l4) => QNode(changeCoords(value, max), mirrorV(l2), mirrorV(l1), mirrorV(l4), mirrorV(l3))
+        }
   }
 
   def mirrorH (qt:QTree[Coords]):QTree[Coords]={
+    val max =maximum(qt)
     qt match {
       case QEmpty => QEmpty
-      case QLeaf(s: Section) => QLeaf(s)
-      case QNode(value, l1, l2, l3, l4) => QNode(value, mirrorH(l3), mirrorH(l4), mirrorH(l1), mirrorH(l2))
+      case QLeaf(s: Section) => QLeaf(changeCoords(s._1, max),s._2)
+      case QNode(value, l1, l2, l3, l4) => QNode(changeCoords(value, max), mirrorH(l3), mirrorH(l4), mirrorH(l1), mirrorH(l2))
     }
   }
 
@@ -98,7 +111,17 @@ object Effects {
 
   }
   def contrast (c:Color): Color={
-    List( 255-c.head, 255-c(1), 255-c(2))
+    val lum = ImageUtil.luminance(c.head, c(1), c(2))
+    if (lum < 127) List(validatecomponent(c.head - 70), validatecomponent(c(1) - 70), validatecomponent(c(2) - 70))
+    else List(validatecomponent(c.head + 70), validatecomponent(c(1) + 70), validatecomponent(c(2) + 70))
+  }
+
+  def contrast2 (c:Color): Color={
+    val luminance  = ImageUtil.luminance(c.head,c(1),c(2))
+    luminance match {
+      case x if x >127 => List( validatecomponent (luminance + c.head), validatecomponent(luminance+c(1)), validatecomponent(luminance+c(2)))
+      case y if y <= 127 =>List( validatecomponent (luminance - c.head), validatecomponent(luminance-c(1)), validatecomponent(luminance-c(2)))
+    }
   }
 
   //Noise tem valores Random de 0 e 122
