@@ -2,32 +2,28 @@ package projeto
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val tree:Tree = Tree(ImageUtil.readColorImage("src/projeto/img/rita.jpeg"))
-    val teste_makeTree = tree.makeTree()
-    val teste_makeBitMap = tree.makeBitMap(teste_makeTree)
-    ImageUtil.writeImage(teste_makeBitMap, "src/projeto/img/teste_makeBitMap.png", "png")
+    val tree:Tree= Tree("src/projeto/img/rita.jpeg")
+    val teste_makeTree = tree.imageToTree()
+//    tree.treeToImage("src/projeto/img/teste.png","png",teste_makeTree)
 
     //////Efeitos////////////
     val effects:Effects = Effects(teste_makeTree)
     //mirrorV
-    ImageUtil.writeImage(tree.makeBitMap(effects.mirrorV()), "src/projeto/img/mirrorV.png", "png")
-
+    tree.treeToImage( "src/projeto/img/mirrorV.png", "png",effects.mirrorV())
     //mirrorH
-    ImageUtil.writeImage(tree.makeBitMap(effects.mirrorH()), "src/projeto/img/mirrorH.png", "png")
+    tree.treeToImage( "src/projeto/img/mirrorH.png", "png",effects.mirrorH())
     //rotateR
-    ImageUtil.writeImage(tree.makeBitMap(effects.rotateR()), "src/projeto/img/rotateR.png", "png")
-
+    tree.treeToImage( "src/projeto/img/rotateR.png", "png",effects.rotateR())
     //rotateL
-    ImageUtil.writeImage(tree.makeBitMap(effects.rotateL()), "src/projeto/img/rotateL.png", "png")
-
-    //mapColorEffect
-
+    tree.treeToImage( "src/projeto/img/rotateR.png", "png",effects.rotateL())
+    //scale
+    tree.treeToImage( "src/projeto/img/scale.png", "png",effects.scale(0.5))
     //sepia
-    ImageUtil.writeImage(tree.makeBitMap(effects.mapColorEffect(effects.sepia)), "src/projeto/img/sepia.png", "png")
+    tree.treeToImage( "src/projeto/img/sepia.png", "png",effects.mapColorEffect(effects.sepia))
     //noise
-    ImageUtil.writeImage(tree.makeBitMap(effects.mapColorEffect(effects.noise)), "src/projeto/img/noise.png", "png")
+    tree.treeToImage( "src/projeto/img/noise.png", "png",effects.mapColorEffect(effects.noise))
     //contrast
-    ImageUtil.writeImage(tree.makeBitMap(effects.mapColorEffect(effects.contrast)), "src/projeto/img/contrast.png", "png")
+    tree.treeToImage( "src/projeto/img/contrast.png", "png",effects.mapColorEffect(effects.contrast))
 
   }
 
