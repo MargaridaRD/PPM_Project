@@ -49,12 +49,12 @@ object Tree{
         case List() => Nil
         case xs::xss => (xs.splitAt(xs.length/2)._1 ::lSlice(xss))
       }
-    }
+  }
     (lSlice(lst),rSlice(lst))
   }
 
   // length -1 nao é preciso em todos porque é do quadrante a seguir
-  def makeTree(bm: Bitmap): QTree[Coords] = {
+  def makeTree(ar: Bitmap): QTree[Coords] = {
     def aux(lst: List[List[Int]], p: Point): QTree[Coords] = {
       lst match {
         case Nil => QEmpty
@@ -72,7 +72,7 @@ object Tree{
           }
       }
     }
-    aux(bm.array.toList map (x => x.toList),(0,0))
+    aux(ar.bitmap.toList map (x => x.toList),(0,0))
   }
 
   //MAKE BITMAP
@@ -106,15 +106,6 @@ object Tree{
 
       }
     }
-
-    (aux(qTree).toArray map (x => x.toArray)).asInstanceOf[Bitmap]
+    Bitmap(aux(qTree).toArray map (x => x.toArray))
   }
-
-
-
-
-
-
-
-
 }

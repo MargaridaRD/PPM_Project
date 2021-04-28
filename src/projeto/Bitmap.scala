@@ -1,4 +1,4 @@
 package projeto
 
-case class Bitmap   ( array: Array[Array[Int]]  )
+ case class Bitmap ( bitmap: Array[Array[Int]] )
 

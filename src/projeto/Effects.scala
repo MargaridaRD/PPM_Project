@@ -2,6 +2,7 @@ package projeto
 
 import projeto.Color.Color
 import projeto.Coords.Coords
+import projeto.Point.Point
 import projeto.Section.Section
 
 import scala.util.Random
@@ -16,11 +17,37 @@ case class Effects(myField:QTree[Coords]){
   def noise (c:Color): Color=Effects.noise(c)
   def contrast (c:Color): Color=Effects.contrast(c)
   def sepia (c:Color): Color=Effects.sepia(c)
+
+  def mapColorEffect_1(f:(Color,RandomState) => (Color,RandomState), r:RandomState):QTree[Coords]=
+    Effects.mapColorEffect_1(f,this.myField,r)
+  def noise_1 (c:Color, r:RandomState): (Color,RandomState)= Effects.noise_1(c,r)
 }
 
 object Effects {
 
+
+  //scale
+
+
   //MIRROR
+  def changeSection(s: Section, length: Int): Section = {
+    val coords = s._1
+    val p1: Point = (length-coords._2._1, coords._1._2)
+    val p2: Point = (length-coords._1._1, coords._2._2)
+    ((p1, p2), s._2)
+  }
+
+  def changeCoords(coords: Coords, length: Int): Coords = {
+    val p1: Point = (length-coords._2._1, coords._1._2)
+    val p2: Point = (length-coords._1._1, coords._2._2)
+    (p1, p2)
+  }
+  def maximum(qt: QTree[Coords]): Int = qt match {
+    case QEmpty => 0
+    case QLeaf(s: Section) => s._1._2._2
+    case QNode(v,l1, l2, l3, l4) => v._2._2.max(maximum(l1) max maximum(l2) max maximum(l3) max maximum (l4))
+  }
+
   def mirrorV (qt:QTree[Coords]):QTree[Coords]={
     qt match {
       case QEmpty => QEmpty
@@ -98,7 +125,11 @@ object Effects {
 
   }
   def contrast (c:Color): Color={
-    List( 255-c.head, 255-c(1), 255-c(2))
+    val luminance  = ImageUtil.luminance(c.head,c(1),c(2))
+    luminance match {
+      case x if(x>127) => List( validatecomponent (luminance + c.head), validatecomponent(luminance+c(1)), validatecomponent(luminance+c(2)))
+      case y if(y<=127) =>List( validatecomponent (luminance - c.head), validatecomponent(luminance-c(1)), validatecomponent(luminance-c(2)))
+    }
   }
 
   //Noise tem valores Random de 0 e 122
@@ -114,6 +145,28 @@ object Effects {
       case QLeaf(s:Section) =>QLeaf((s._1,f(s._2)))
       case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect(f,l1), mapColorEffect(f,l2), mapColorEffect(f,l3), mapColorEffect(f,l4))
     }
+  }
+
+  //Puro
+  def mapColorEffect_1(f:(Color,RandomState) => (Color,RandomState), qt:QTree[Coords],r:RandomState):QTree[Coords]={
+    val random_noise= r.nextInt(122)
+    qt match {
+      case QEmpty=>QEmpty
+      case QLeaf(s:Section) =>QLeaf((s._1,f(s._2,r)._1))
+      case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect_1(f,l1,r),
+        mapColorEffect_1(f,l2,r),
+        mapColorEffect_1(f,l3,r),
+        mapColorEffect_1(f,l4,r))
+    }
+  }
+
+  def noise_1 (c:Color, r:RandomState) :(Color,RandomState)={
+    val random_noise= r.nextInt(122)
+    println("x: " + random_noise)
+    ( List (validatecomponent(random_noise._1+c.head),
+            validatecomponent(random_noise._1+c(1)),
+            validatecomponent(random_noise._1+c(2))), random_noise._2)
+
   }
 
 }
