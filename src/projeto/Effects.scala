@@ -19,6 +19,8 @@ case class Effects(myField:QTree[Coords]){
   def contrast (c:Color): Color=Effects.contrast(c)
   def sepia (c:Color): Color=Effects.sepia(c)
 
+  def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), r:RandomWithState):QTree[Coords]= Effects.mapColorEffect_1(f,this.myField,r)
+  def noise_1 (c:Color, r:RandomWithState): (Color,RandomWithState)= Effects.noise_1(c,r)
 }
 
 object Effects {
@@ -161,6 +163,25 @@ object Effects {
       case QEmpty=>QEmpty
       case QLeaf(s:Section) =>QLeaf((s._1,f(s._2)))
       case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect(f,l1), mapColorEffect(f,l2), mapColorEffect(f,l3), mapColorEffect(f,l4))
+    }
+  }
+
+  //Noise puro
+  def noise_1 (c:Color, r:RandomWithState): (Color,RandomWithState)={
+    val random_noise= r.nextInt(122)
+
+    (List (validatecomponent(random_noise._1+c.head),
+      validatecomponent(random_noise._1+c(1)),
+      validatecomponent(random_noise._1+c(2))),random_noise._2)
+
+
+  }
+  def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+    qt match {
+      case QEmpty=>QEmpty
+      case QLeaf(s:Section) =>QLeaf((s._1,f(s._2,r)._1))
+      case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect_1(f,l1,r), mapColorEffect_1(f,l2,r),
+        mapColorEffect_1(f,l3,r), mapColorEffect_1(f,l4,r))
     }
   }
 
