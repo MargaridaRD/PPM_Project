@@ -59,6 +59,7 @@ object Tree{
       lst match {
         case Nil => QEmpty
         case List(List())=> QEmpty
+        case List() => QEmpty
         case _ =>
           if (verify_pixels(lst)) {
             QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head).toList))
@@ -109,7 +110,10 @@ object Tree{
     aux(qTree).toArray map (x => x.toArray)
   }
 
-
+  def main(args: Array[String]): Unit = {
+    val tree = makeTree(ImageUtil.readColorImage("src/projeto/img/caozinho.png"))
+    ImageUtil.writeImage(makeBitMap(tree), "src/projeto/img/nova.png", "png")
+  }
 
 
 
