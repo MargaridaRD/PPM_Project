@@ -1,7 +1,6 @@
 package projeto
 
 
-import projeto.Bitmap.Bitmap
 import projeto.Coords.Coords
 import projeto.Point.Point
 import projeto.Section.Section
@@ -22,7 +21,7 @@ object Tree{
 
   def imageToTree(string: String) :QTree[Coords] = {
     val ar=ImageUtil.readColorImage(string)
-    makeTree(ar)
+    makeTree(Bitmap(ar))
 
   }
   //verifica se todos os pixeis são iguais para um quadrante
@@ -79,13 +78,13 @@ object Tree{
           }
       }
     }
-    aux(bm.toList map (x => x.toList),(0,0))
+    aux(bm.bitmap.toList map (x => x.toList),(0,0))
   }
 
   //MAKE BITMAP
   def treeToImage(path: String,form:String, tree: QTree[Coords]): Unit ={
     val m =makeBitMap(tree)
-    ImageUtil.writeImage(m.array, path, form)
+    ImageUtil.writeImage(m.bitmap.array, path, form)
   }
   // glue junta verticalmente l1+l2 e l3+l4 e junta horizontalmente o resultado das duas
   def glue(l1: List[List[Int]], l2: List[List[Int]],l3: List[List[Int]], l4: List[List[Int]]): List[List[Int]] = {
@@ -118,7 +117,7 @@ object Tree{
       }
     }
 
-    aux(qTree).toArray map (x => x.toArray)
+   Bitmap(aux(qTree).toArray map (x => x.toArray))
   }
 
 
