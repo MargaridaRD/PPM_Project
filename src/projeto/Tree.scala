@@ -121,10 +121,6 @@ object Tree{
    Bitmap(aux(qTree).toArray map (x => x.toArray))
   }
 
-  def main(args: Array[String]): Unit = {
-    val tree = makeTree(ImageUtil.readColorImage("src/projeto/img/caozinho.png"))
-    ImageUtil.writeImage(makeBitMap(tree), "src/projeto/img/nova.png", "png")
-  }
 
 
 

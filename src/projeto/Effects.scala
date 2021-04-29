@@ -19,6 +19,11 @@ case class Effects(myField:QTree[Coords]){
   def contrast (c:Color): Color=Effects.contrast(c)
   def sepia (c:Color): Color=Effects.sepia(c)
 
+  /*def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), r:RandomWithState):QTree[Coords]= Effects.mapColorEffect_1(f,this.myField,r)
+  def noise_1 (c:Color, r:RandomWithState): (Color,RandomWithState)= Effects.noise_1(c,r)*/
+  def mapColorEffect_1(f:(Color, Int) => (Color), r:RandomWithState):QTree[Coords]= Effects.mapColorEffect_1(f,this.myField,r)
+  def noise_1 (c:Color, r:Int): (Color)= Effects.noise_1(c,r)
+
 }
 
 object Effects {
@@ -29,11 +34,13 @@ object Effects {
     val p2: Point = (length-coords._1._1, coords._2._2)
     (p1, p2)
   }
+
   def maximum(qt: QTree[Coords]): Int = qt match {
     case QEmpty => 0
     case QLeaf(s: Section) => s._1._2._2
     case QNode(v,l1, l2, l3, l4) => v._2._2.max(maximum(l1) max maximum(l2) max maximum(l3) max maximum (l4))
   }
+
   def mirrorV (qt:QTree[Coords]):QTree[Coords]= {
     val max =maximum(qt)
         qt match {
@@ -58,11 +65,13 @@ object Effects {
       case QNode(value, _, _, _, _) => value._2
     }
   }
+
   //rotate_R
   def rotateCoords_R(c: Coords, height: Int): Coords = {
     val swap =((c._1._1, c._2._2),(c._2._1, c._1._2)) //swap das coordenadas dos cantos
     ((height - swap._1._2, swap._1._1), (height - swap._2._2, swap._2._1))
   }
+
   def rotateR(qt:QTree[Coords]): QTree[Coords]={
     def aux(qt_aux: QTree[Coords], height: Int): QTree[Coords] = {
       qt_aux match {
@@ -75,12 +84,12 @@ object Effects {
     }
     aux(qt, dimensions(qt)._2)
   }
+
   //rotate_L
   def rotateCoords_L(c: Coords, width: Int): Coords = {
     val swap =((c._2._1, c._1._2),(c._1._1, c._2._2)) //swap das coordenadas dos cantos
     ((swap._1._2, width - swap._1._1), ( swap._2._2, width - swap._2._1))
   }
-
 
   def rotateL(qt:QTree[Coords]): QTree[Coords]={
     def aux(qt_aux: QTree[Coords], height: Int): QTree[Coords] = {
@@ -115,6 +124,7 @@ object Effects {
     val p2: Point = (Math.round((coords._2._1 + 1) * scale - 1).toInt, Math.round((coords._2._2 + 1) * scale - 1).toInt)
     (p1, p2)
   }
+
   def scale(qt: QTree[Coords], doub: Double): QTree[Coords] = {
     qt match {
       case QEmpty => QEmpty
@@ -126,6 +136,7 @@ object Effects {
           QNode(changeCoords_Scale(value, doub), scale(l1, doub), scale(l2, doub), scale(l3, doub), scale(l4, doub))
     }
   }
+
   //EFFECTS
   def validatecomponent(i:Int): Int={
     i match {
@@ -141,8 +152,8 @@ object Effects {
     val intensity = 30
     val avg= (c.head +c(1) +c(2))/3
     List (validatecomponent(avg + depth*2),validatecomponent(avg+ depth), validatecomponent(avg-intensity))
-
   }
+
   def contrast (c:Color): Color={
     val lum = ImageUtil.luminance(c.head, c(1), c(2))
     if (lum < 127) List(validatecomponent(c.head - 50), validatecomponent(c(1) - 50), validatecomponent(c(2) - 50))
@@ -152,10 +163,9 @@ object Effects {
   //Noise tem valores Random de 0 e 122
   def noise (c:Color): Color={
     val random_noise= Random.nextInt(122)
-
     List (validatecomponent(random_noise+c.head),validatecomponent(random_noise+c(1)), validatecomponent(random_noise+c(2)))
-
   }
+
   def mapColorEffect(f:Color => Color, qt:QTree[Coords]):QTree[Coords]={
     qt match {
       case QEmpty=>QEmpty
@@ -164,6 +174,50 @@ object Effects {
     }
   }
 
+  //Noise puro
+  /*def noise_1 (c:Color, r:RandomWithState): (Color,RandomWithState)={
+    val random_noise= r.nextInt(122)
+
+    (List (validatecomponent(random_noise._1+c.head),
+      validatecomponent(random_noise._1+c(1)),
+      validatecomponent(random_noise._1+c(2))),random_noise._2)
+  }
+
+  def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+    val (_, nextState) = r.nextInt(122)
+    qt match {
+      case QEmpty=>QEmpty
+      case QLeaf(s:Section) => {
+        val newColor = f(s._2, nextState)
+        QLeaf(s._1,newColor._1)
+      }
+      case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,nextState), mapColorEffect_1(f,l2,nextState),
+        mapColorEffect_1(f,l3,nextState), mapColorEffect_1(f,l4,nextState))
+    }
+  }*/
+
+  def mapColorEffect_1(f:(Color, Int) => (Color), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+    val (_, state1) = r.nextInt(122)
+    val (_, state2) = state1.nextInt(122)
+    val (_, state3) = state2.nextInt(122)
+    val (_, state4) = state3.nextInt(122)
+    qt match {
+      case QEmpty=>QEmpty
+      case QLeaf(s:Section) => {
+        val newColor = f(s._2, r.nextInt(122)._1)
+        QLeaf(s._1,newColor)
+      }
+      case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,state1), mapColorEffect_1(f,l2,state2),
+        mapColorEffect_1(f,l3,state3), mapColorEffect_1(f,l4,state4))
+    }
+  }
+
+  def noise_1 (c:Color, r:Int): (Color)={
+
+    (List (validatecomponent(r+c.head),
+      validatecomponent(r+c(1)),
+      validatecomponent(r+c(2))))
+  }
 
 }
 
