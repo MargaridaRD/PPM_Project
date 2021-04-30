@@ -177,6 +177,7 @@ object Effects {
 
   }
   def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+
     qt match {
       case QEmpty=>QEmpty
       case QLeaf(s:Section) =>QLeaf((s._1,f(s._2,r)._1))
