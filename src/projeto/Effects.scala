@@ -16,10 +16,12 @@ case class Effects(myField:QTree[Coords]){
   def scale (doub: Double): QTree[Coords]= Effects.scale(this.myField, doub)
   def mapColorEffect(f:Color => Color):QTree[Coords] =Effects.mapColorEffect(f,this.myField)
   def noise (c:Color): Color=Effects.noise(c)
-  def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), r:RandomWithState):QTree[Coords]= Effects.mapColorEffect_1(f,this.myField,r)
-  def noise_1 (c:Color, r:RandomWithState): (Color,RandomWithState)= Effects.noise_1(c,r)
   def contrast (c:Color): Color=Effects.contrast(c)
   def sepia (c:Color): Color=Effects.sepia(c)
+
+  def mapColorEffect_1(f:(Color, Int) => (Color), r:RandomWithState):QTree[Coords]= Effects.mapColorEffect_1(f,this.myField,r)
+  def noise_1 (c:Color, r:Int): (Color)= Effects.noise_1(c,r)
+
 
 }
 
@@ -165,24 +167,30 @@ object Effects {
       case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect(f,l1), mapColorEffect(f,l2), mapColorEffect(f,l3), mapColorEffect(f,l4))
     }
   }
-  //Noise puro
-  def noise_1 (c:Color, r:RandomWithState): (Color,RandomWithState)={
-    val random_noise= r.nextInt(122)
 
-    (List (validatecomponent(random_noise._1+c.head),
-      validatecomponent(random_noise._1+c(1)),
-      validatecomponent(random_noise._1+c(2))),random_noise._2)
-
-
-  }
-  def mapColorEffect_1(f:(Color, RandomWithState) => (Color,RandomWithState), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
-
-    qt match {
+  //noise
+  def mapColorEffect_1(f:(Color, Int) => (Color), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+    val (i, nextState) = r.nextInt(122)
+      qt match {
       case QEmpty=>QEmpty
-      case QLeaf(s:Section) =>QLeaf((s._1,f(s._2,r)._1))
-      case  QNode(a, l1, l2, l3, l4)=>QNode(a, mapColorEffect_1(f,l1,r), mapColorEffect_1(f,l2,r),
-        mapColorEffect_1(f,l3,r), mapColorEffect_1(f,l4,r))
+      case QLeaf(s:Section) => {
+        val newColor = f(s._2, i)
+        println("x:" + nextState)
+        QLeaf(s._1,newColor)
+      }
+      case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,nextState), mapColorEffect_1(f,l2,nextState),
+        mapColorEffect_1(f,l3,nextState), mapColorEffect_1(f,l4,nextState))
+
+     //case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,nextState), mapColorEffect_1(f,l2,nextState.nextInt(122)._2),
+     //   mapColorEffect_1(f,l3,nextState.nextInt(122)._2.nextInt(122)._2), mapColorEffect_1(f,l4,nextState.nextInt(122)._2.nextInt(122)._2.nextInt(122)._2))
     }
+  }
+
+  def noise_1 (c:Color, r:Int): (Color)={
+
+    (List (validatecomponent(r+c.head),
+      validatecomponent(r+c(1)),
+      validatecomponent(r+c(2))))
   }
 
 }
