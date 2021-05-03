@@ -196,7 +196,7 @@ object Effects {
     }
   }*/
 
-  def mapColorEffect_1(f:(Color, Int) => (Color), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+  /*def mapColorEffect_1(f:(Color, Int) => (Color), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
     val (_, state1) = r.nextInt(122)
     val (_, state2) = state1.nextInt(122)
     val (_, state3) = state2.nextInt(122)
@@ -209,6 +209,19 @@ object Effects {
       }
       case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,state1), mapColorEffect_1(f,l2,state2),
         mapColorEffect_1(f,l3,state3), mapColorEffect_1(f,l4,state4))
+    }
+  }*/
+
+  def mapColorEffect_1(f:(Color, Int) => (Color), qt:QTree[Coords], r:RandomWithState):QTree[Coords]={
+    val (_, nextState) = r.nextInt(122)
+    qt match {
+      case QEmpty=>QEmpty
+      case QLeaf(s:Section) => {
+        val newColor = f(s._2, r.nextInt(122)._1)
+        QLeaf(s._1,newColor)
+      }
+      case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,nextState), mapColorEffect_1(f,l2,nextState),
+        mapColorEffect_1(f,l3,nextState), mapColorEffect_1(f,l4,nextState))
     }
   }
 
