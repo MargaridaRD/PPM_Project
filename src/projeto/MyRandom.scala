@@ -9,4 +9,5 @@ case class MyRandom(seed: Long) extends RandomWithState {
     val nn = (newSeed >>> 16).toInt % n
     (if(nn<0) -nn else nn, nextRandom)
   }
+
 }
