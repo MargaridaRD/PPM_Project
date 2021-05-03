@@ -1,6 +1,5 @@
 package projeto
 
-import projeto.Gallery.Image
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -33,6 +32,7 @@ object Main {
 //    tree.treeToImage( "src/projeto/img/contrast.png", "png",effects.mapColorEffect(effects.contrast))
 
     ///////Gallery//////////////////////////////////////////////////////////
+    val gallery2:Gallery= Gallery (List())
     val gallery1 = Gallery (List((0,"src/projeto/img/rita.jpeg"),(1,"src/projeto/img/objc2_2.png"),(2,"src/projeto/img/objc2_3.png")))
 
     //insert
@@ -47,26 +47,17 @@ object Main {
     //val searchImage1=  insert1.searchImage(2)
     //println("searchImage1: " + searchImage1)
 
+      // swapImage n
+   // val swapImage1:Gallery=  Gallery(gallery2.swapImage(0,3))
+   // println("swapImage1: " + swapImage1)
 
+    //previous
+    //val scroll1= gallery1.scroll(Gallery.previous,1)
+    //println("scroll1: " + scroll1)
 
-
-    //next nao funciona
-    //val next1:Image= insert1.next(4)
-    //println("next1: " + next1)
-
-    //previous nao funciona
-    //val previous1:Image= insert1.previous(4)
-    //println("previous1: " + previous1)
-
-      // swapImage não funciona
-    //val swapImage1:Gallery=  Gallery(gallery1.swapImage(0,3))
-    //println("swapImage1: " + swapImage1)
-
-
-
-
-
-
+    //next
+    //val scroll2= gallery1.scroll(Gallery.next,1)
+    //println("scroll2: " + scroll2)
   }
 
 }
