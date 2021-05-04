@@ -8,7 +8,7 @@ object Main {
 //    tree.treeToImage("src/projeto/img/teste.png","png",teste_makeTree)
 
 //    //////Efeitos////////////
-   // val effects:Effects = Effects(teste_makeTree)
+    //val effects:Effects = Effects(teste_makeTree)
 //    //mirrorV
 //    tree.treeToImage( "src/projeto/img/mirrorV.png", "png",effects.mirrorV())
 //    //mirrorH
@@ -23,13 +23,14 @@ object Main {
 //    tree.treeToImage( "src/projeto/img/sepia.png", "png",effects.mapColorEffect(effects.sepia))
 //    //noise
 //    tree.treeToImage( "src/projeto/img/noise.png", "png",effects.mapColorEffect(effects.noise))
+    //    //contrast
+        //tree.treeToImage( "src/projeto/img/contrast.png", "png",effects.mapColorEffect(effects.contrast))
 
     //noise_puro
    // val r = MyRandom(11)
    // tree.treeToImage( "src/projeto/img/noise.png", "png",effects.mapColorEffect_1(effects.noise_1,r ))
 
-//    //contrast
-//    tree.treeToImage( "src/projeto/img/contrast.png", "png",effects.mapColorEffect(effects.contrast))
+
 
     ///////Gallery//////////////////////////////////////////////////////////
     val gallery2:Gallery= Gallery (List())
