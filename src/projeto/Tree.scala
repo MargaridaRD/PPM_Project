@@ -114,7 +114,6 @@ object Tree{
         case QEmpty => Nil
         case QLeaf(s: Section) => leafToList(s)
         case QNode(_, l1, l2, l3, l4) => glue(aux(l1), aux(l2), aux(l3), aux(l4))
-
       }
     }
 
