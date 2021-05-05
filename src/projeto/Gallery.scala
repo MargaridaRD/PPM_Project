@@ -37,7 +37,7 @@ object Gallery{
     val img = searchImage(id,album)
     album match {
         case Nil => album
-        case x :: xs => if (x._1 == id || img== None) xs else x :: delete(id, album)
+        case x :: xs => if (x._1 == id || img.isEmpty) xs else x :: delete(id, album)
       }
   }
 
