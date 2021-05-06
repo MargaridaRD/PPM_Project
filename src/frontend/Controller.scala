@@ -9,35 +9,39 @@ import javafx.scene.image.{Image, ImageView}
 class Controller {
 
   @FXML
-  private var imageView: ImageView = _
+  private var imageView: ImageView =_
   @FXML
-  private var setaR: ImageView = _
+  private var buttonAdd: Button =_
   @FXML
-  private var setaL: ImageView = _
+  private var buttonScale: Button =_
   @FXML
-  private var buttonAdd: Button = _
+  private var buttonMirrorV: Button =_
   @FXML
-  private var buttonScale: Button = _
+  private var buttonMirrorH: Button =_
   @FXML
-  private var buttonMirrorV: Button = _
+  private var buttonRotateR: Button =_
   @FXML
-  private var buttonMirrorH: Button = _
+  private var buttonRotateL: Button =_
   @FXML
-  private var buttonRotateR: Button = _
+  private var menuItemContrast: MenuItem =_
   @FXML
-  private var buttonRotateL: Button = _
+  private var menuItemSepia: MenuItem =_
   @FXML
-  private var menuItemContrast: MenuItem = _
+  private var menuItemNoise: MenuItem =_
   @FXML
-  private var menuItemSepia: MenuItem = _
+  private var buttonDelete: Button =_
   @FXML
-  private var menuItemNoise: MenuItem = _
+  private var buttonCancelar: Button =_
   @FXML
-  private var buttonCancelar: Button = _
+  private var buttonGuardar: Button =_
   @FXML
-  private var buttonGuardar: Button = _
+  private var buttonNext: Button =_
+  @FXML
+  private var buttonPrevious: Button =_
 
-
+  def setMainImage(s: String): Unit = {
+    imageView.setImage(new Image(s))
+  }
 
   def effectScale():Unit={
     println("scale")
@@ -73,7 +77,11 @@ class Controller {
     println("noise")
 
   }
-  def gurdar():Unit={
+  def delete():Unit={
+    println("delete")
+
+  }
+  def guardar():Unit={
     println("guardar")
 
   }
@@ -81,26 +89,15 @@ class Controller {
     println("cancelar")
 
   }
-  def seta_L():Unit={
-    println("cancelar")
-
-  }
-
-  def seta_R():Unit={
-    println("cancelar")
-
-  }
 
   def contrast():Unit={
-    println("contrst")
+    println("contrast")
   }
-
-  def setMainImage(s: String): Unit = {
-    imageView.setImage(new Image(s))
+  def next():Unit={
+    println("next")
   }
-
-  def onClickAdd(): Unit = {
-
+  def previous():Unit={
+    println("previous")
   }
 
 
