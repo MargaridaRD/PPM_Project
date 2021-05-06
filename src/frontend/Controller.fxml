@@ -38,7 +38,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="buttonMirrorV" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectMirrorV">
+            <Button fx:id="buttonMirrorV" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#onClickMirrorV">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -46,7 +46,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="buttonMirrorH" layoutX="100.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectMirrorV">
+            <Button fx:id="buttonMirrorH" layoutX="100.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#onClickMirrorH">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>

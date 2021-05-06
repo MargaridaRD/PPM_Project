@@ -3,11 +3,13 @@ package frontend
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, MenuItem, TextField}
 import javafx.scene.image.{Image, ImageView}
-import projeto.Gallery
+import projeto.{Effects, Gallery, Tree}
+
 
 
 
 class Controller {
+
 
   @FXML
   private var name: Label =_
@@ -54,6 +56,7 @@ class Controller {
     imageView.setImage(new Image(s))
     name.setText(s)
     id.setText(i.toString)
+
   }
 
   def valueScale():Unit={
@@ -62,13 +65,9 @@ class Controller {
   def valueOfScale():Unit={
 
   }
-  def effectMirrorV():Unit={
-    println("mirrorV")
-  }
-  def effectMirrorH():Unit={
-    println("mirrirH")
 
-  }
+
+
   def effectRotateR():Unit={
     println("RotateR")
 
@@ -120,12 +119,32 @@ class Controller {
   }
 
   def onClickAdd ():Unit={
+    println("ola do add")
 
   }
 
+
+  def onClickMirrorH():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
+  }
   def onClickMirrorV ():Unit={
-
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
   }
+  def rightFile () : Tree= {
+    if (FxApp1.isEdited) {
+      println("ola Rita")
+      Tree("src/projeto/img/~temp.png")
+    } else {
+      Tree("src/" + name.getText())
+    }
+  }
+
 
 
 }

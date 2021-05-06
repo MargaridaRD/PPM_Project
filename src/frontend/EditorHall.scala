@@ -33,6 +33,7 @@ class EditorHall extends Application {
 object FxApp1 {
 
   var album = create_album()
+  var isEdited = false
 
   def readFile(s: String): List[String] = {
     var album = List[String]()
