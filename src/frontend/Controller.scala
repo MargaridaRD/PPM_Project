@@ -1,14 +1,20 @@
 package frontend
 
 import javafx.fxml.FXML
-import javafx.scene.control.{Button, MenuItem}
+import javafx.scene.control.{Button, Label, MenuItem, TextArea, TextField}
 import javafx.scene.image.{Image, ImageView}
-import projeto.{Effects, Tree}
+import projeto.{Effects, Gallery, Tree}
+
 
 
 
 class Controller {
 
+
+  @FXML
+  private var name: Label =_
+  @FXML
+  private var id: Label =_
   @FXML
   private var imageView: ImageView =_
   @FXML
@@ -39,85 +45,120 @@ class Controller {
   private var buttonNext: Button =_
   @FXML
   private var buttonPrevious: Button =_
+  @FXML
+  private var pathText: TextField =_
+  @FXML
+  private var scaleText: TextField =_
 
 
-  def setMainImage(s: String): Unit = {
+
+  def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
     imageView.setImage(new Image(s))
+    name.setText(s)
+    id.setText(i.toString)
+    FxApp1.isEdited=false
   }
 
-  def effectScale():Unit={
-    println("scale")
+  def valueScale():Unit={
+    scaleText.setVisible(true)
+  }
 
+  def valueOfScale():Unit={
 
   }
-  def effectMirrorV():Unit={
-    println("mirrorV")
 
 
-  }
-  def effectMirrorH():Unit={
-    println("mirrirH")
 
-  }
-  def effectRotateR():Unit={
-    println("RotateR")
+  def onClickRotateR():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).rotateR())
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
 
   }
-  def effectRotateL():Unit={
-    println("RotateL")
+  def onClickRotateL():Unit={
+     val tree:Tree= rightFile
+     tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).rotateL())
+     imageView.setImage(new  Image("projeto/img/~temp.png"))
+     FxApp1.isEdited=true
 
   }
-  def effectContrast():Unit={
-    println("contrast")
+
+  def onClickSepia():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.sepia) )
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
 
   }
-  def effectSepia():Unit={
-    println("sepia")
+  def onClickNoise():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.noise))
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
 
   }
-  def effectNoise():Unit={
-    println("noise")
-
+  def onClickContrast():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.contrast))
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
   }
   def delete():Unit={
     println("delete")
 
   }
   def guardar():Unit={
-    println("guardar")
+    FxApp1.isEdited=false
 
   }
   def cancelar():Unit={
-    println("cancelar")
+    FxApp1.isEdited=false
 
   }
 
-  def contrast():Unit={
-    println("contrast")
-  }
+
   def next():Unit={
+       if(FxApp1.album.nonEmpty) {
+         val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
+         setMainImage(img._2, img._1)
 
+
+       }
   }
   def previous():Unit={
-    println("previous")
+    if(FxApp1.album.nonEmpty) {
+      val img: (Int, String) = Gallery(FxApp1.album).previous(id.getText.toInt)
+      setMainImage( img._2, img._1)
+
+    }
+
   }
 
-  def checkName(): String {
-  if(File("temp").exists)
+  def onClickAdd ():Unit={
+    println("ola do add")
+    FxApp1.isEdited=false
   }
 
-  def onClickMirrorV ():Unit={
 
+  def onClickMirrorH():Unit={
     val tree:Tree= rightFile
     tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
     imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
+  }
+  def onClickMirrorV ():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
   }
   def rightFile () : Tree= {
-    if (scala.reflect.io.File("src/projeto/img/~temp.png").exists) {
-      println("ola Rita")
+    if (FxApp1.isEdited) {
+      println("temp")
       Tree("src/projeto/img/~temp.png")
     } else {
-      println("ola Maria")
+      println("NOTtemp")
       Tree("src/" + name.getText())
     }
   }

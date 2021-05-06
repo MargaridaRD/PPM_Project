@@ -1,3 +1,2 @@
-projeto/img/rita.jpeg
-projeto/img/portrait.png
-projeto/img/img.png
+projeto/img/objc2_2.png
+projeto/img/13_10.png
