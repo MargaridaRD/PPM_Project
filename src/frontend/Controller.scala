@@ -1,42 +1,41 @@
 package frontend
 
 import javafx.fxml.FXML
-
 import javafx.scene.control.{Button, MenuItem}
-import javafx.scene.image.ImageView
+import javafx.scene.image.{Image, ImageView}
 
 
 
 class Controller {
 
   @FXML
-  private var imageView: ImageView =
+  private var imageView: ImageView = _
   @FXML
-  private var setaR: ImageView =
+  private var setaR: ImageView = _
   @FXML
-  private var setaL: ImageView =
+  private var setaL: ImageView = _
   @FXML
-  private var buttonAdd: Button =
+  private var buttonAdd: Button = _
   @FXML
-  private var buttonScale: Button =
+  private var buttonScale: Button = _
   @FXML
-  private var buttonMirrorV: Button =
+  private var buttonMirrorV: Button = _
   @FXML
-  private var buttonMirrorH: Button =
+  private var buttonMirrorH: Button = _
   @FXML
-  private var buttonRotateR: Button =
+  private var buttonRotateR: Button = _
   @FXML
-  private var buttonRotateL: Button =
+  private var buttonRotateL: Button = _
   @FXML
-  private var menuItemContrast: MenuItem =
+  private var menuItemContrast: MenuItem = _
   @FXML
-  private var menuItemSepia: MenuItem =
+  private var menuItemSepia: MenuItem = _
   @FXML
-  private var menuItemNoise: MenuItem =
+  private var menuItemNoise: MenuItem = _
   @FXML
-  private var buttonCancelar: Button =
+  private var buttonCancelar: Button = _
   @FXML
-  private var buttonGuardar: Button =
+  private var buttonGuardar: Button = _
 
 
 
@@ -96,13 +95,13 @@ class Controller {
     println("contrst")
   }
 
-
-  def getTile(): TilePane = {
-    tile
+  def setMainImage(s: String): Unit = {
+    imageView.setImage(new Image(s))
   }
 
-  def getScroll(): ScrollPane = {
-    scroll
+  def onClickAdd(): Unit = {
+
   }
+
 
 }

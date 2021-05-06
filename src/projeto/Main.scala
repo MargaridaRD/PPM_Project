@@ -39,6 +39,8 @@ object Main {
     //insert
    val insert1:Gallery=  Gallery(gallery1.insert("src/projeto/img/4cores15_10.png"))
   println("insert: " + insert1)
+    val insert2:Gallery=  Gallery(gallery1.insert("src/projeto/img/img.png"))
+    println("insert: " + insert2)
 
     //delete
     //val delete1=  Gallery(insert1.delete(0))
