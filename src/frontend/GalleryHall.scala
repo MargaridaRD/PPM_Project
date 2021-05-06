@@ -20,7 +20,10 @@ class GalleryHall extends Application {
     primaryStage.setTitle("Photo Gallery")
     val fxmlLoader = new FXMLLoader(getClass.getResource("controller.fxml")) //tecnicamente agora nem estamos a usar o controller.fxml
 
-    val scroll: ScrollPane = fxmlLoader.load()//.asInstanceOf[ScrollPane]
+    val controller: Controller = fxmlLoader.getController
+    val scroll: ScrollPane = controller.asInstanceOf[ScrollPane]
+
+    //val scroll: ScrollPane = fxmlLoader.load()//.asInstanceOf[ScrollPane]
     val tile: TilePane = scroll.getContent.asInstanceOf[TilePane]
 
     //meter as imageviews com as imagens que temos na lista dentro do pane
@@ -59,8 +62,7 @@ object FxApp {
         image.setPreserveRatio(true) //isto e pra quando definimos a altura em baixo, a largura se adapte tb à mudança
         image.setFitHeight(200) //nao concordo com isto pq acho que nao deviamos po las todas da mesma altura simplesmente deveriamos impedir que ficassem maiores que um determinado size limite
 
-        val controller: Controller = fxml.getController
-        //controller.
+
 
         //PARA IR PARA OUTRA JANELA COM A MESMA IMAGEM (CODIGO REPETIDO E ESPARGUETE)
         val iv: ImageView = new ImageView(x._2)
