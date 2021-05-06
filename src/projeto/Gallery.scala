@@ -7,6 +7,8 @@ import scala.util.{Failure, Success, Try}
 
 
 case class Gallery(album:Album){
+
+
   def insert(bm:String) : Album = Gallery.insert(bm,this.album)
   def searchImage(id:Int):Option[Image] = Gallery.searchImage(id, this.album)
   def swapImage(id1:Int, id2:Int ): Album = Gallery.swapImage(id1,id2,this.album)
@@ -17,6 +19,8 @@ case class Gallery(album:Album){
 }
 
 object Gallery{
+
+
   //ver se dá para string
    type Image= (Int, String)
    type Album = List[Image]
@@ -67,6 +71,7 @@ object Gallery{
     else album.apply(album.length-1)
   }
 
+  //Apenas utilizado na userTextInterface
   def scroll ( f: (Int, Album) => Image , id:Int, album:Album)  =
       Try(f(id, album)) match {
       case Success( img) =>img

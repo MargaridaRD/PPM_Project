@@ -1,13 +1,18 @@
 package frontend
 
 import javafx.fxml.FXML
-import javafx.scene.control.{Button, MenuItem}
+import javafx.scene.control.{Button, Label, MenuItem, TextField}
 import javafx.scene.image.{Image, ImageView}
+import projeto.Gallery
 
 
 
 class Controller {
 
+  @FXML
+  private var name: Label =_
+  @FXML
+  private var id: Label =_
   @FXML
   private var imageView: ImageView =_
   @FXML
@@ -38,20 +43,27 @@ class Controller {
   private var buttonNext: Button =_
   @FXML
   private var buttonPrevious: Button =_
+  @FXML
+  private var pathText: TextField =_
+  @FXML
+  private var scaleText: TextField =_
 
-  def setMainImage(s: String): Unit = {
+
+
+  def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
     imageView.setImage(new Image(s))
+    name.setText(s)
+    id.setText(i.toString)
   }
 
-  def effectScale():Unit={
-    println("scale")
-
+  def valueScale():Unit={
+    scaleText.setVisible(true)
+  }
+  def valueOfScale():Unit={
 
   }
   def effectMirrorV():Unit={
     println("mirrorV")
-
-
   }
   def effectMirrorH():Unit={
     println("mirrirH")
@@ -89,15 +101,30 @@ class Controller {
     println("cancelar")
 
   }
-
   def contrast():Unit={
     println("contrast")
   }
+
   def next():Unit={
-    println("next")
+       if( !FxApp1.album.isEmpty) {
+         val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
+         setMainImage(img._2, img._1)
+       }
   }
   def previous():Unit={
-    println("previous")
+    if( !FxApp1.album.isEmpty) {
+      val img: (Int, String) = Gallery(FxApp1.album).previous(id.getText.toInt)
+      setMainImage( img._2, img._1)
+    }
+
+  }
+
+  def onClickAdd ():Unit={
+
+  }
+
+  def onClickMirrorV ():Unit={
+
   }
 
 
