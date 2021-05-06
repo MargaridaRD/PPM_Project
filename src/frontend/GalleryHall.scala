@@ -21,10 +21,11 @@ class GalleryHall extends Application {
     val fxmlLoader = new FXMLLoader(getClass.getResource("controller.fxml")) //tecnicamente agora nem estamos a usar o controller.fxml
 
     val controller: Controller = fxmlLoader.getController
-    val scroll: ScrollPane = controller.asInstanceOf[ScrollPane]
+    val scroll: ScrollPane = controller.getScroll()
+    val tile: TilePane = controller.getTile()
 
     //val scroll: ScrollPane = fxmlLoader.load()//.asInstanceOf[ScrollPane]
-    val tile: TilePane = scroll.getContent.asInstanceOf[TilePane]
+    //val tile: TilePane = scroll.getContent.asInstanceOf[TilePane]
 
     //meter as imageviews com as imagens que temos na lista dentro do pane
     FxApp.loadImages(tile, FxApp.album, fxmlLoader)
