@@ -1,7 +1,7 @@
 package frontend
 
 import javafx.fxml.FXML
-import javafx.scene.control.{Button, Label, MenuItem, TextField}
+import javafx.scene.control.{Button, Label, MenuItem, TextArea, TextField}
 import javafx.scene.image.{Image, ImageView}
 import projeto.Gallery
 
@@ -47,6 +47,10 @@ class Controller {
   private var pathText: TextField =_
   @FXML
   private var scaleText: TextField =_
+  @FXML
+  private var helpButton: ImageView =_
+  @FXML
+  private var helpText: TextArea =_
 
 
 
@@ -59,6 +63,12 @@ class Controller {
   def valueScale():Unit={
     scaleText.setVisible(true)
   }
+  def help():Unit={
+    helpText.setVisible(true)
+    wait(3000)
+    helpText.setVisible(false)
+  }
+
   def valueOfScale():Unit={
 
   }
