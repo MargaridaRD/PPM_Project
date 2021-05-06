@@ -14,7 +14,7 @@
   </rowConstraints>
    <children>
       <ImageView fx:id="imageView" fitHeight="260.0" fitWidth="583.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
+      <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.valignment="TOP">
         <items>
           <Button mnemonicParsing="false">
                <graphic>
@@ -23,14 +23,49 @@
                         <Image url="@icons/Add.png" />
                      </image></ImageView>
                </graphic></Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Scale" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Delete" />
-            <Button layoutX="100.0" layoutY="10.0" mnemonicParsing="false" text="Delete" />
-            <Button layoutX="155.0" layoutY="10.0" mnemonicParsing="false" text="RotateL" />
-            <Button layoutX="210.0" layoutY="10.0" mnemonicParsing="false" text="RotateR" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/Scale.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/MirrorV.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button layoutX="100.0" layoutY="10.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/MirriH.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button layoutX="155.0" layoutY="10.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/rotateR.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button layoutX="210.0" layoutY="10.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/rotateL.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
             <Button layoutX="271.0" layoutY="10.0" mnemonicParsing="false">
                <graphic>
-                  <MenuButton mnemonicParsing="false" text="MenuButton">
+                  <MenuButton mnemonicParsing="false" text="Efeitos">
                     <items>
                       <MenuItem mnemonicParsing="false" text="EspelharV" />
                         <Menu mnemonicParsing="false" text="Editar">
