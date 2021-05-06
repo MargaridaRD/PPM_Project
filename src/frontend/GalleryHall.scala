@@ -1,5 +1,5 @@
 package frontend
-import javafx.scene.layout.{HBox, TilePane}
+import javafx.scene.layout.{GridPane, HBox, TilePane}
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.image.ImageView
@@ -8,7 +8,7 @@ import javafx.stage.Stage
 import projeto.Gallery
 import projeto.Gallery.Album
 import javafx.event.EventHandler
-import javafx.scene.control.Label
+import javafx.scene.control.{Label, ScrollPane}
 import javafx.scene.input.MouseEvent
 
 import scala.annotation.tailrec
@@ -20,13 +20,14 @@ class GalleryHall extends Application {
     primaryStage.setTitle("Photo Gallery")
     val fxmlLoader = new FXMLLoader(getClass.getResource("controller.fxml")) //tecnicamente agora nem estamos a usar o controller.fxml
 
-    val pane: TilePane = fxmlLoader.load()
+    val scroll: ScrollPane = fxmlLoader.load()//.asInstanceOf[ScrollPane]
+    val tile: TilePane = scroll.getContent.asInstanceOf[TilePane]
 
     //meter as imageviews com as imagens que temos na lista dentro do pane
-    FxApp.loadImages(pane, FxApp.album, fxmlLoader)
+    FxApp.loadImages(tile, FxApp.album, fxmlLoader)
 
     //montar o scene e o stage
-    val scene = new Scene(pane)
+    val scene = new Scene(scroll)
 
     primaryStage.setScene(scene)
     primaryStage.show()
@@ -49,16 +50,6 @@ object FxApp {
   var gallery: Gallery = new Gallery(album)
 
 
-  var event: EventHandler[MouseEvent] = new EventHandler[MouseEvent] {
-    override def handle(t: MouseEvent): Unit = {
-      val secondStage: Stage = new Stage()
-      val fxmlLoader = new FXMLLoader(getClass.getResource("controller2.fxml"))
-      secondStage.setScene(new Scene(new HBox(100, new Label("Second window"))))
-      secondStage.setHeight(200)
-      secondStage.show()
-    }
-  }
-
   @tailrec
   def loadImages(pane: TilePane, album: Album, fxml: FXMLLoader): Unit = { //nao sei se temos de usar o pattern matching aqui
     album match {
@@ -67,8 +58,29 @@ object FxApp {
         val image: ImageView = new ImageView(x._2) //cria a imageview com o path que vai buscar à lista
         image.setPreserveRatio(true) //isto e pra quando definimos a altura em baixo, a largura se adapte tb à mudança
         image.setFitHeight(200) //nao concordo com isto pq acho que nao deviamos po las todas da mesma altura simplesmente deveriamos impedir que ficassem maiores que um determinado size limite
-        //var controller: Controller = fxml.getController
-        image.setOnMouseClicked(event)
+
+        val controller: Controller = fxml.getController
+        //controller.
+
+        //PARA IR PARA OUTRA JANELA COM A MESMA IMAGEM (CODIGO REPETIDO E ESPARGUETE)
+        val iv: ImageView = new ImageView(x._2)
+        iv.setPreserveRatio(true)
+        iv.setFitHeight(400)
+
+        image.setOnMouseClicked(new EventHandler[MouseEvent] {
+          override def handle(t: MouseEvent): Unit = {
+            val secondStage: Stage = new Stage()
+            val fxmlLoader = new FXMLLoader(getClass.getResource("editor.fxml"))
+            val pane: GridPane = fxmlLoader.load()
+
+            pane.getChildren.add(iv)
+            secondStage.setScene(new Scene(pane))
+            secondStage.setHeight(200)
+            secondStage.show()
+          }
+        })
+
+
         pane.getChildren.add(image)
         loadImages(pane, xs, fxml)
     }
@@ -80,4 +92,3 @@ object FxApp {
     Application.launch(classOf[GalleryHall], args: _*)
   }
 }
-
