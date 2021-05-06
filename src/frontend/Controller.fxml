@@ -1,10 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fx:id="scroll" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <TilePane fx:id="tile" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" />
-   </content>
-</ScrollPane>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="203.0" minHeight="0.0" prefHeight="46.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="317.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <ImageView fx:id="setaL" fitHeight="67.0" fitWidth="50.0" onMouseClicked="#seta_L" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin></ImageView>
+      <ImageView fx:id="imageView" fitHeight="260.0" fitWidth="583.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@../projeto/img/pessoa.png" />
+         </image></ImageView>
+      <ImageView fx:id="setaR" fitHeight="69.0" fitWidth="50.0" onMouseClicked="#seta_R" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="5.0" />
+         </GridPane.margin>
+      </ImageView>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+         <items>
+            <Button fx:id="buttonAdd" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="addImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/Add.png" />
+                     </image></ImageView>
+               </graphic></Button>
+            <Button fx:id="buttonScale" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectScale">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/Scale.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="buttonMirrorV" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectMirrorV">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/MirrorV.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="buttonMirrorH" layoutX="100.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectMirrorV">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/MirriH.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="buttonRotateR" layoutX="155.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectRotateR">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/rotateR.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="buttonRotateL" layoutX="210.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectRotateL">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/rotateL.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <MenuButton mnemonicParsing="false" text="Efeitos">
+               <items>
+                  <MenuItem fx:id="menuItemNoise" mnemonicParsing="false" text="Noise" />
+                  <MenuItem fx:id="menuItemSepia" mnemonicParsing="false" text="Sepia" />
+                  <MenuItem fx:id="menuItemContrast" mnemonicParsing="false" onAction="#contrast" text="Contrast" />
+               </items>
+            </MenuButton>
+         </items>
+      </ToolBar>
+      <Button fx:id="buttonCancelar" mnemonicParsing="false" onMouseClicked="#cancelar" text="Cancelar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="80.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="buttonGuardar" mnemonicParsing="false" onMouseClicked="#gurdar" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+      </Button>
+   </children>
+</GridPane>
