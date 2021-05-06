@@ -94,7 +94,8 @@ class Controller {
     println("contrast")
   }
   def next():Unit={
-    println("next")
+
+    println(imageView.getImage)
   }
   def previous():Unit={
     println("previous")
