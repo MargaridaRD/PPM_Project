@@ -20,6 +20,7 @@ class EditorHall extends Application {
     val mainViewRoot: Parent = fxmlLoader.load()
 
     val controller: Controller = fxmlLoader.getController
+    controller.editor = this
     if(!FxApp1.album.isEmpty) controller.setMainImage(FxApp1.album.head._2)
 
     val scene = new Scene(mainViewRoot)

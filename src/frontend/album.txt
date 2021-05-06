@@ -1,1 +1,3 @@
-projeto/img/4cores15_10.png
+projeto/img/rita.jpeg
+projeto/img/portrait.png
+projeto/img/img.png
