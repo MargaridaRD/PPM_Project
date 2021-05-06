@@ -4,11 +4,11 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 
-class home extends Application {
+class EditorHall extends Application {
   override def start(primaryStage: Stage): Unit = {
     primaryStage.setTitle("My Hello World App")
     val fxmlLoader =
-      new FXMLLoader(getClass.getResource("controller.fxml"))
+      new FXMLLoader(getClass.getResource("editor.fxml"))
     val mainViewRoot: Parent = fxmlLoader.load()
     val scene = new Scene(mainViewRoot)
     primaryStage.setScene(scene)
@@ -17,6 +17,6 @@ class home extends Application {
 }
 object FxApp1 {
   def main(args: Array[String]): Unit = {
-    Application.launch(classOf[home], args: _*)
+    Application.launch(classOf[EditorHall], args: _*)
   }
 }

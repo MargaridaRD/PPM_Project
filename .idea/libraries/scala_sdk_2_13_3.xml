@@ -14,6 +14,7 @@
       <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/scala/lib/scala-library.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/scala/lib/scala-reflect.jar!/" />
       <root url="file://R:/Rita/Iscte/2 Ano/2 Semestre/PPM/javafx-sdk-15.0.1/lib" />
+      <root url="file://$USER_HOME$/Desktop/iscte/2 ano/2 semestre/ppm/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/scala/api/jars/scala-library-2.13.3-javadoc.jar!/" />
@@ -23,8 +24,11 @@
     </JAVADOC>
     <SOURCES>
       <root url="file://R:/Rita/Iscte/2 Ano/2 Semestre/PPM/javafx-sdk-15.0.1/lib" />
+      <root url="file://$USER_HOME$/Desktop/iscte/2 ano/2 semestre/ppm/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" />
     </SOURCES>
+    <jarDirectory url="file://$USER_HOME$/Desktop/iscte/2 ano/2 semestre/ppm/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" recursive="false" />
     <jarDirectory url="file://R:/Rita/Iscte/2 Ano/2 Semestre/PPM/javafx-sdk-15.0.1/lib" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/Desktop/iscte/2 ano/2 semestre/ppm/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://R:/Rita/Iscte/2 Ano/2 Semestre/PPM/javafx-sdk-15.0.1/lib" recursive="false" type="SOURCES" />
   </library>
 </component>

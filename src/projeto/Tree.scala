@@ -65,6 +65,7 @@ object Tree{
       lst match {
         case Nil => QEmpty
         case List(List())=> QEmpty
+        case List() => QEmpty
         case _ =>
           if (verify_pixels(lst)) {
             QLeaf(((p, (p._1 + lst.head.length - 1, p._2 + lst.length - 1)), ImageUtil.decodeRgb(lst.head.head).toList))
@@ -113,13 +114,11 @@ object Tree{
         case QEmpty => Nil
         case QLeaf(s: Section) => leafToList(s)
         case QNode(_, l1, l2, l3, l4) => glue(aux(l1), aux(l2), aux(l3), aux(l4))
-
       }
     }
 
    Bitmap(aux(qTree).toArray map (x => x.toArray))
   }
-
 
 
 
