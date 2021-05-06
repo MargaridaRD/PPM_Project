@@ -18,7 +18,7 @@
    </rowConstraints>
    <children>
       <Label fx:id="name" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-      <ImageView fx:id="imageView" fitHeight="260.0" fitWidth="583.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <ImageView fx:id="imageView" cache="true" fitHeight="260.0" fitWidth="583.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       <TextField fx:id="pathText" maxWidth="300.0" text="Insira o path:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
       <TextField fx:id="scaleText" maxWidth="200.0" text="Scale value:" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
       <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.valignment="TOP">
@@ -54,7 +54,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="buttonRotateR" layoutX="155.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectRotateR">
+            <Button fx:id="buttonRotateR" layoutX="155.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#onClickRotateR">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -62,7 +62,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="buttonRotateL" layoutX="210.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#effectRotateL">
+            <Button fx:id="buttonRotateL" layoutX="210.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#onClickRotateL">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -72,9 +72,9 @@
                </graphic></Button>
             <MenuButton mnemonicParsing="false">
                <items>
-                  <MenuItem fx:id="menuItemNoise" mnemonicParsing="false" text="Noise" />
-                  <MenuItem fx:id="menuItemSepia" mnemonicParsing="false" text="Sepia" />
-                  <MenuItem fx:id="menuItemContrast" mnemonicParsing="false" onAction="#contrast" text="Contrast" />
+                  <MenuItem fx:id="menuItemNoise" mnemonicParsing="false" onAction="#onClickNoise" text="Noise" />
+                  <MenuItem fx:id="menuItemSepia" mnemonicParsing="false" onAction="#onClickSepia" text="Sepia" />
+                  <MenuItem fx:id="menuItemContrast" mnemonicParsing="false" onAction="#onClickContrast" text="Contrast" />
                </items>
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -128,17 +128,5 @@
             <Insets right="50.0" />
          </GridPane.margin>
       </Label>
-      <ImageView fx:id="helpButton" fitHeight="20.0" fitWidth="25.0" onMouseClicked="#help" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-         <image>
-            <Image url="@icons/help.png" />
-         </image>
-         <GridPane.margin>
-            <Insets right="10.0" />
-         </GridPane.margin></ImageView>
-      <TextArea fx:id="helpText" maxHeight="300.0" maxWidth="100.0" text="hello" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowSpan="2147483647" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets right="20.0" top="25.0" />
-         </GridPane.margin>
-      </TextArea>
    </children>
 </GridPane>

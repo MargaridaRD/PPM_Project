@@ -49,10 +49,6 @@ class Controller {
   private var pathText: TextField =_
   @FXML
   private var scaleText: TextField =_
-  @FXML
-  private var helpButton: ImageView =_
-  @FXML
-  private var helpText: TextArea =_
 
 
 
@@ -60,16 +56,11 @@ class Controller {
     imageView.setImage(new Image(s))
     name.setText(s)
     id.setText(i.toString)
-
+    FxApp1.isEdited=false
   }
 
   def valueScale():Unit={
     scaleText.setVisible(true)
-  }
-  def help():Unit={
-    helpText.setVisible(true)
-    wait(3000)
-    helpText.setVisible(false)
   }
 
   def valueOfScale():Unit={
@@ -78,59 +69,75 @@ class Controller {
 
 
 
-  def effectRotateR():Unit={
-    println("RotateR")
+  def onClickRotateR():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).rotateR())
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
 
   }
-  def effectRotateL():Unit={
-    println("RotateL")
+  def onClickRotateL():Unit={
+     val tree:Tree= rightFile
+     tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).rotateL())
+     imageView.setImage(new  Image("projeto/img/~temp.png"))
+     FxApp1.isEdited=true
 
   }
-  def effectContrast():Unit={
-    println("contrast")
+
+  def onClickSepia():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.sepia) )
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
 
   }
-  def effectSepia():Unit={
-    println("sepia")
+  def onClickNoise():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.noise))
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
 
   }
-  def effectNoise():Unit={
-    println("noise")
-
+  def onClickContrast():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.contrast))
+    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    FxApp1.isEdited=true
   }
   def delete():Unit={
     println("delete")
 
   }
   def guardar():Unit={
-    println("guardar")
+    FxApp1.isEdited=false
 
   }
   def cancelar():Unit={
-    println("cancelar")
+    FxApp1.isEdited=false
 
   }
-  def contrast():Unit={
-    println("contrast")
-  }
+
 
   def next():Unit={
-       if( !FxApp1.album.isEmpty) {
+       if(FxApp1.album.nonEmpty) {
          val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
          setMainImage(img._2, img._1)
+
+
        }
   }
   def previous():Unit={
-    if( !FxApp1.album.isEmpty) {
+    if(FxApp1.album.nonEmpty) {
       val img: (Int, String) = Gallery(FxApp1.album).previous(id.getText.toInt)
       setMainImage( img._2, img._1)
+
     }
 
   }
 
   def onClickAdd ():Unit={
     println("ola do add")
-
+    FxApp1.isEdited=false
   }
 
 
@@ -148,9 +155,10 @@ class Controller {
   }
   def rightFile () : Tree= {
     if (FxApp1.isEdited) {
-      println("ola Rita")
+      println("temp")
       Tree("src/projeto/img/~temp.png")
     } else {
+      println("NOTtemp")
       Tree("src/" + name.getText())
     }
   }
