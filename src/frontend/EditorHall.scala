@@ -1,12 +1,12 @@
 package frontend
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
-import javafx.scene.image.ImageView
+
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 import projeto.Gallery
 import projeto.Gallery.Album
-import textUserInterface.textUserInterface
+
 
 import java.io.{File, FileNotFoundException}
 import java.util.{ArrayList, Scanner}
@@ -20,7 +20,10 @@ class EditorHall extends Application {
     val mainViewRoot: Parent = fxmlLoader.load()
 
     val controller: Controller = fxmlLoader.getController
-    if(!FxApp1.album.isEmpty) controller.setMainImage(FxApp1.album.head._2)
+    if(!FxApp1.album.isEmpty){
+      controller.setMainImage(FxApp1.album.head._2,FxApp1.album.head._1 )
+
+    }
 
     val scene = new Scene(mainViewRoot)
     primaryStage.setScene(scene)
