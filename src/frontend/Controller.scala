@@ -1,9 +1,12 @@
 package frontend
 
+
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, MenuItem, TextField}
 import javafx.scene.image.{Image, ImageView}
 import projeto.{Effects, Gallery, Tree}
+import java.io.File
+
 
 
 
@@ -53,16 +56,24 @@ class Controller {
 
 
   def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
+
     imageView.setImage(new Image(s))
     name.setText(s)
     id.setText(i.toString)
 
   }
-
   def valueScale():Unit={
     scaleText.setVisible(true)
-  }
-  def valueOfScale():Unit={
+
+    //Isto é alogica da coisa agora fazer quando da enter
+    if(scaleText.getText.nonEmpty) {
+      val value: Double = scaleText.getText.toDouble // vais buscar o valor inserido
+      println(value)
+      scaleText.setVisible(false)
+      val tree: Tree = rightFile
+      tree.treeToImage("src/projeto/img/temp.png", "png", Effects(tree.imageToTree()).scale(value))
+      imageView.setImage(new Image("projeto/img/temp.png"))
+    }
 
   }
 
@@ -88,16 +99,26 @@ class Controller {
     println("noise")
 
   }
-  def delete():Unit={
-    println("delete")
-
+  def delete():Unit= {
+    if (!FxApp1.album.isEmpty) {
+      FxApp1.album = new Gallery(Gallery(FxApp1.album).delete(id.getText.toInt)).album
+      if (!FxApp1.album.isEmpty) {
+        previous()
+      }
+      else {
+        imageView.setImage(null)
+      }
+    }
   }
+    //apagar do ficheiro album.txt => falta Isso no final quabdo fecha
   def guardar():Unit={
     println("guardar")
 
   }
   def cancelar():Unit={
-    println("cancelar")
+   imageView.setImage(new Image(name.getText))
+    val f:File= new File("src/projeto/img/temp.png")
+    if (f.delete()) Some(f) else None
 
   }
   def contrast():Unit={
@@ -123,27 +144,65 @@ class Controller {
 
   }
 
-
   def onClickMirrorH():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
-    imageView.setImage(new  Image("projeto/img/~temp.png"))
-    FxApp1.isEdited=true
+    tree.treeToImage( "src/projeto/img/temp.png", "png",Effects(tree.imageToTree()).mirrorH())
+    imageView.setImage(new  Image("projeto/img/temp.png"))
+
   }
+  var count = 0
+
   def onClickMirrorV ():Unit={
-    val tree:Tree= rightFile
-    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
-    imageView.setImage(new  Image("projeto/img/~temp.png"))
-    FxApp1.isEdited=true
+    val tree:Tree= rightFile()
+    val teste_makeTree = tree.imageToTree()
+    val effects:Effects = Effects(teste_makeTree)
+    tree.treeToImage( "src/projeto/count/"+ count.toString+ ".png", "png",effects.mirrorV())
+    imageView.setImage(new  Image("projeto/count/"+ count.toString+ ".png"))
+    count+=1
   }
   def rightFile () : Tree= {
+    println("count1:" +"src/projeto/count/"+ (count-1).toString+ ".png")
+    if (scala.reflect.io.File("src/projeto/count/"+ (count-1).toString+ ".png").exists) {
+      println("o ficheiro já existe na pasta count")
+      val t:Tree= Tree("src/projeto/count/"+ (count-1).toString+ ".png")
+      t
+    } else {
+      val s = "src/" + name.getText
+      println("name da img: " +s)
+      val r: Tree=Tree(s)
+      r
+    }
+  }
+  def rightFileR () : Tree= {
+    if (scala.reflect.io.File("src/projeto/img/temp.png").exists) {
+      println("existe")
+      val t:Tree= Tree("src/projeto/img/temp.png")
+      t
+    } else {
+      val s = "src/" + name.getText
+      val r: Tree=Tree(s)
+      r
+    }
+  }
+
+
+
+
+
+
+
+
+  /*
+ def rightFile () : Tree= {
     if (FxApp1.isEdited) {
       println("ola Rita")
       Tree("src/projeto/img/~temp.png")
     } else {
       Tree("src/" + name.getText())
     }
-  }
+  }*/
+
+
 
 
 

@@ -3,6 +3,7 @@ package projeto
 
 import projeto.Gallery.{Album, Image}
 
+import java.nio.file.{FileSystem, Files}
 import scala.util.{Failure, Success, Try}
 
 
@@ -16,6 +17,7 @@ case class Gallery(album:Album){
   def next( id:Int): Image= Gallery.next(id,this.album)
   def previous( id:Int): Image= Gallery.previous(id,this.album)
   def scroll ( f: (Int, Album) => Image , id:Int)= Gallery.scroll(f,id,this.album)
+  def editInformation ( id:Int, newName:String):Album = Gallery.editInformation(id,this.album,newName )
 }
 
 object Gallery{
@@ -79,8 +81,19 @@ object Gallery{
     }
 
 
+  def editInformation ( id:Int, album:Album, newName:String):Album ={
+
+    val index1 = album.indexWhere(x => { x._1 == id } )
+    if(index1 != -1){
+      val img1 = album.apply(index1)
+      val s1 = img1._2.split("\\.")
+      val s2 = img1._2.split("/")
+
+      val newImg  = new Image (id,"src/projeto/img/" +newName + "."+s1(1))
+      album.updated(index1,newImg)
 
 
-
+    }else album
+  }
 
 }

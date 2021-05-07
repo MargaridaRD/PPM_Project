@@ -20,7 +20,7 @@ class EditorHall extends Application {
     val mainViewRoot: Parent = fxmlLoader.load()
 
     val controller: Controller = fxmlLoader.getController
-    if(!FxApp1.album.isEmpty){
+    if(FxApp1.album.nonEmpty){
       controller.setMainImage(FxApp1.album.head._2,FxApp1.album.head._1 )
 
     }
@@ -32,7 +32,7 @@ class EditorHall extends Application {
 }
 object FxApp1 {
 
-  var album = create_album()
+  var album:Album = create_album()
   var isEdited = false
 
   def readFile(s: String): List[String] = {
@@ -72,6 +72,8 @@ object FxApp1 {
 
 
   def main(args: Array[String]): Unit = {
+    val f:File= new File("src/projeto/img/temp.png")
+    if (f.delete()) Some(f) else None //returns "Maybe" monad
     Application.launch(classOf[EditorHall], args: _*)
 
   }
