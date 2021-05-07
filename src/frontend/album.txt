@@ -1,1 +1,2 @@
-projeto/img/pessoa.png
+projeto/img/objc2_2.png
+projeto/img/13_10.png
