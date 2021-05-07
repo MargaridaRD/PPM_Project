@@ -1,14 +1,12 @@
 package frontend
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
-
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 import projeto.Gallery
 import projeto.Gallery.Album
 
-
-import java.io.{File, FileNotFoundException}
+import java.io.{File, FileNotFoundException, FileWriter, IOException}
 import java.util.{ArrayList, Scanner}
 
 
@@ -18,21 +16,51 @@ class EditorHall extends Application {
     val fxmlLoader =
       new FXMLLoader(getClass.getResource("controller.fxml"))
     val mainViewRoot: Parent = fxmlLoader.load()
-
     val controller: Controller = fxmlLoader.getController
-    if(!FxApp1.album.isEmpty){
-      controller.setMainImage(FxApp1.album.head._2,FxApp1.album.head._1 )
+    if (!FxApp1.album.isEmpty) {
+      controller.setMainImage(FxApp1.album.head._2, FxApp1.album.head._1)
 
     }
 
     val scene = new Scene(mainViewRoot)
     primaryStage.setScene(scene)
     primaryStage.show()
+
+    println("album_start: " + FxApp1.album)
+  }
+
+
+  def writeFile (album: Album): Unit= {
+
+
+    def aux ( al:Album):Unit= {
+      try {
+        val myWriter: FileWriter = new FileWriter("src/frontend/album.txt")
+        for (img <- al) {
+          myWriter.write(img._2 + "\n")
+        }
+        myWriter.close()
+      }
+      catch{
+        case e: FileNotFoundException =>
+          System.err.println("Não encontrou o ficheiro!!")
+          System.exit(1)
+      }
+    }
+    aux(album)
+  }
+  override def stop(): Unit = {
+    val f: File = new File("temp.png") //apaga o ficheiro temp.png
+    if (f.delete()) Some(f) else None
+    println("Album: " + FxApp1.album)
+    writeFile(FxApp1.album)
   }
 }
+
 object FxApp1 {
   var album = create_album()
   var isEdited = false
+
   def readFile(s: String): List[String] = {
     var album = List[String]()
     val file = new File(s)
@@ -71,8 +99,7 @@ object FxApp1 {
 
 
   def main(args: Array[String]): Unit = {
-    val f:File= new File("temp.png")
-    if (f.delete()) Some(f) else None //returns "Maybe" monad
+
     Application.launch(classOf[EditorHall], args: _*)
 
   }

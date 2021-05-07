@@ -3,7 +3,7 @@ package projeto
 
 import projeto.Gallery.{Album, Image}
 
-import java.nio.file.{FileSystem, Files}
+import java.io.File
 import scala.util.{Failure, Success, Try}
 
 
@@ -87,11 +87,9 @@ object Gallery{
     if(index1 != -1){
       val img1 = album.apply(index1)
       val s1 = img1._2.split("\\.")
-      val s2 = img1._2.split("/")
-
       val newImg  = new Image (id,"src/projeto/img/" +newName + "."+s1(1))
+      Try(new File(img1._2).renameTo(new File(newImg._2))).getOrElse(false)
       album.updated(index1,newImg)
-
 
     }else album
   }
