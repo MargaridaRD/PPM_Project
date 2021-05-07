@@ -45,7 +45,7 @@ class Controller {
   @FXML
   private var buttonDelete: Button =_
   @FXML
-  private var buttonCancelar: Button =_
+  private var buttonCancel: Button =_
   @FXML
   private var buttonSave: Button =_
   @FXML
@@ -69,37 +69,40 @@ class Controller {
   }
 
   def changeNameOk ():Unit={
+    buttonNameOK.setVisible(false)
     if (name.getText.nonEmpty) {
-      buttonNameOK.setVisible(false)
+      new File("out/production/PPM_Project/projeto/img/" + name.getPromptText).renameTo(new File("out/production/PPM_Project/projeto/img/" + name.getText))
       val index1 = FxApp1.album.indexWhere(x => { x._1 == id.getText.toInt } )
-      Try(new File("out/production/PPM_Project/projeto/img/" +name.getPromptText).renameTo(new File("out/production/PPM_Project/projeto/img/" +name.getText())))
-      name.setPromptText(name.getText())
-      FxApp1.album.updated(index1,name.getPromptText)
+      name.setPromptText(name.getText)
+      FxApp1.album = FxApp1.album.updated(index1,(id.getText.toInt,name.getPromptText))
       name.setText("")
     }
   }
-
-
-
-
 
   def addImage(): Unit ={
     if( FxApp1.isEdited==true) save()
     pathText.setVisible(true)
     buttonAddOk.setVisible(true)
   }
+
   def addImageOK():Unit={
     if (!pathText.getText.equals("Insira o nome da imagem:")) {
       pathText.setVisible(false)
       buttonAddOk.setVisible(false)
-      FxApp1.album = new Gallery(FxApp1.album).insert(pathText.getText)
-      setMainImage(pathText.getText,FxApp1.album.length-1)
+      Try {
+        setMainImage(pathText.getText,FxApp1.album.length)
+          println("meteu no album")
+          FxApp1.album = new Gallery(FxApp1.album).insert(pathText.getText)
+      }
       pathText.setText("")
     }
+    println("dps do add" + FxApp1.album)
+
   }
+
   def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
     imageView.setImage(new Image("/projeto/img/"+s))
-    name.setText(s)
+    name.setPromptText(s)
     id.setText(i.toString)
     FxApp1.isEdited=false
   }
@@ -170,31 +173,30 @@ class Controller {
   }
 
   def delete():Unit={
-    if (!FxApp1.album.isEmpty) {
-      FxApp1.album = new Gallery(Gallery(FxApp1.album).delete(id.getText.toInt)).album
-      if (!FxApp1.album.isEmpty)
-        previous()
+    if (FxApp1.album.nonEmpty) {
+      FxApp1.album = new Gallery(FxApp1.album).delete(id.getText.toInt)
+      if (FxApp1.album.nonEmpty)
+        next()
       else {
         imageView.setImage(null)
-        name.setText("")
-
+        name.setPromptText("")
       }
-
     }
+    println("dps do delte" + FxApp1.album)
   }
 
 
   def save():Unit={
     if(FxApp1.isEdited) {
       Files.move(Paths.get("out/production/PPM_Project/temp.png"),
-        Paths.get("out/production/PPM_Project/projeto/img/" + name.getText),
+        Paths.get("out/production/PPM_Project/projeto/img/" + name.getPromptText),
         StandardCopyOption.REPLACE_EXISTING)
     }
     FxApp1.isEdited=false
 
   }
-  def cancelar():Unit={
-    imageView.setImage(new Image("/projeto/img/"+name.getText))
+  def cancel():Unit={
+    imageView.setImage(new Image("/projeto/img/"+ name.getPromptText))
     val f:File= new File("src/projeto/img/temp.png")
     if (f.delete()) Some(f) else None
     FxApp1.isEdited=false
@@ -211,28 +213,17 @@ class Controller {
   }
   def previous():Unit={
     if( FxApp1.isEdited==true) save()
-
     if(FxApp1.album.nonEmpty) {
       val img: (Int, String) = Gallery(FxApp1.album).previous(id.getText.toInt)
       setMainImage( img._2, img._1)
     }
-
-
-
   }
-
-  def onClickAdd ():Unit={
-    println("ola do add")
-    FxApp1.isEdited=false
-  }
-
-
 
   def rightFile () : Tree= {
     if (FxApp1.isEdited) {
       Tree("out/production/PPM_Project/temp.png")
     } else {
-      Tree("out/production/PPM_Project/projeto/img/" + name.getText())
+      Tree("out/production/PPM_Project/projeto/img/" + name.getPromptText())
     }
   }
   

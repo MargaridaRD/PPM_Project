@@ -1,2 +1,4 @@
-objc2_2.png
-13_10.png
+abacate2.png
+gaja.png
+img.png
+rita.jpeg

@@ -31,11 +31,9 @@ class EditorHall extends Application {
 
 
   def writeFile (album: Album): Unit= {
-
-
     def aux ( al:Album):Unit= {
       try {
-        val myWriter: FileWriter = new FileWriter("src/frontend/album.txt")
+        val myWriter: FileWriter = new FileWriter("out/production/PPM_Project/frontend/album.txt")
         for (img <- al) {
           myWriter.write(img._2 + "\n")
         }
@@ -83,7 +81,7 @@ object FxApp1 {
 
   def create_album(): Album = {
     val gallery = new Gallery(List())
-    val list = readFile("src/frontend/album.txt")
+    val list = readFile("out/production/PPM_Project/frontend/album.txt")
 
     def aux(l: List[String], galleryAux: Gallery): Album = {
       l match {
