@@ -1,2 +1,2 @@
-projeto/img/objc2_2.png
-projeto/img/13_10.png
+objc2_2.png
+13_10.png
