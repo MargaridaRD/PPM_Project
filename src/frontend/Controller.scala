@@ -54,6 +54,7 @@ class Controller {
 
   def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
     imageView.setImage(new Image(s))
+
     name.setText(s)
     id.setText(i.toString)
     FxApp1.isEdited=false
@@ -109,7 +110,8 @@ class Controller {
 
   }
   def guardar():Unit={
-    FxApp1.isEdited=false
+    imageView.setImage(new  Image("temp.png"))
+
 
   }
   def cancelar():Unit={
@@ -149,8 +151,8 @@ class Controller {
   }
   def onClickMirrorV ():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "src/projeto/img/~temp.png", "png",Effects(tree.imageToTree()).mirrorV())
-    imageView.setImage(new  Image("projeto/img/~temp.png"))
+    tree.treeToImage( "temp.png", "png",Effects(tree.imageToTree()).mirrorV())
+//    imageView.setImage(new  Image("projeto/img/~temp.png"))
     FxApp1.isEdited=true
   }
   def rightFile () : Tree= {

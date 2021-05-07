@@ -58,6 +58,7 @@ object FxApp1 {
   def create_album(): Album = {
     val gallery = new Gallery(List())
     val list = readFile("src/frontend/album.txt")
+
     def aux(l: List[String], galleryAux: Gallery): Album = {
       l match {
         case Nil => galleryAux.album
