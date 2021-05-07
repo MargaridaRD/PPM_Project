@@ -170,7 +170,7 @@ class Controller {
   }
   def cancelar():Unit={
     imageView.setImage(new Image(name.getText))
-    val f:File= new File("src/projeto/img/temp.png")
+    val f:File= new File("temp.png")
     if (f.delete()) Some(f) else None
     FxApp1.isEdited=false
 
