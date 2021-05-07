@@ -17,7 +17,6 @@
       <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Label fx:id="name" alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
       <ImageView fx:id="imageView" cache="true" fitHeight="260.0" fitWidth="583.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       <TextField fx:id="pathText" maxWidth="200.0" onMouseClicked="#addImage" promptText="Insira o nome da imagem" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <TextField fx:id="scaleText" maxWidth="200.0" promptText="Scale value" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
@@ -138,5 +137,11 @@
             <Insets right="50.0" />
          </GridPane.margin>
       </Label>
+      <Button fx:id="buttonNameOK" mnemonicParsing="false" onMouseClicked="#changeNameOk" text="Ok!" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+      <TextField fx:id="name" maxWidth="-Infinity" onMouseClicked="#changeName" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets right="50.0" />
+         </GridPane.margin>
+      </TextField>
    </children>
 </GridPane>

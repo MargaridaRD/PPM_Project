@@ -3,12 +3,14 @@ package frontend
 import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label, MenuItem, TextArea, TextField}
 import javafx.scene.image.{Image, ImageView}
+import projeto.Gallery.{Album}
 import projeto.{Effects, Gallery, Tree}
 
 import java.io.File
-import java.nio.file.Files
-import scala.util.Try
 import java.nio.file.{Files, Paths, StandardCopyOption}
+import scala.util.Try
+
+
 
 
 
@@ -17,7 +19,7 @@ class Controller {
 
 
   @FXML
-  private var name: Label =_
+  private var name: TextField =_
   @FXML
   private var id: Label =_
   @FXML
@@ -58,11 +60,31 @@ class Controller {
   private var buttonScaleOk: Button =_
   @FXML
   private var scaleText: TextField =_
+  @FXML
+  private var buttonNameOK: Button =_
+
+
+  def changeName ():Unit={
+    buttonNameOK.setVisible(true)
+  }
+
+  def changeNameOk ():Unit={
+    if (name.getText.nonEmpty) {
+      buttonNameOK.setVisible(false)
+      val index1 = FxApp1.album.indexWhere(x => { x._1 == id.getText.toInt } )
+      Try(new File("out/production/PPM_Project/projeto/img/" +name.getPromptText).renameTo(new File("out/production/PPM_Project/projeto/img/" +name.getText())))
+      name.setPromptText(name.getText())
+      FxApp1.album.updated(index1,name.getPromptText)
+      name.setText("")
+    }
+  }
+
 
 
 
 
   def addImage(): Unit ={
+    if( FxApp1.isEdited==true) save()
     pathText.setVisible(true)
     buttonAddOk.setVisible(true)
   }
@@ -161,30 +183,18 @@ class Controller {
     }
   }
 
-  def mv(oldName: String, newName: String) =
-    Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
-
-  def moveRenameFile(source: String, destination: String): Unit = {
-    val path = Files.move(
-      Paths.get(source),
-      Paths.get(destination),
-      StandardCopyOption.REPLACE_EXISTING
-    )
-    // could return `path`
-  }
 
   def save():Unit={
     if(FxApp1.isEdited) {
-      //Files.copy(new File("temp.png").toPath,new File("out/production/PPM_Project/projeto/img"+name.getText).toPath)
-    //println(mv("out/production/PPM_Project/temp.png", "out/production/PPM_Project/projeto/img/portrait2.png"))
-      new File("out/production/PPM_Project/temp.png").renameTo(new File("out/production/PPM_Project/projeto/img/portrait2.png"))
-      //Files.move(new File("out/production/PPM_Project/temp.png").toPath, new File("out/production/PPM_Project/projeto/img/portrait4.png").toPath)
-      moveRenameFile("out/production/PPM_Project/temp.png", "out/production/PPM_Project/projeto/img/portrait4.png")
+      Files.move(Paths.get("out/production/PPM_Project/temp.png"),
+        Paths.get("out/production/PPM_Project/projeto/img/" + name.getText),
+        StandardCopyOption.REPLACE_EXISTING)
     }
-  }
+    FxApp1.isEdited=false
 
+  }
   def cancelar():Unit={
-    imageView.setImage(new Image(name.getText))
+    imageView.setImage(new Image("/projeto/img/"+name.getText))
     val f:File= new File("src/projeto/img/temp.png")
     if (f.delete()) Some(f) else None
     FxApp1.isEdited=false
@@ -192,19 +202,22 @@ class Controller {
   }
 
   def next():Unit={
+    if( FxApp1.isEdited==true) save()
        if(FxApp1.album.nonEmpty) {
          val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
          setMainImage(img._2, img._1)
-
-
        }
+
   }
   def previous():Unit={
+    if( FxApp1.isEdited==true) save()
+
     if(FxApp1.album.nonEmpty) {
       val img: (Int, String) = Gallery(FxApp1.album).previous(id.getText.toInt)
       setMainImage( img._2, img._1)
-
     }
+
+
 
   }
 
