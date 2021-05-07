@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/ASUS/IdeaProjects/PPM_Project</OriginalElement>
+  <nodes>
+    <node x="320.0" y="228.0">frontend.FxApp1$</node>
+    <node x="131.0" y="608.0">textUserInterface.text$</node>
+    <node x="299.0" y="380.0">frontend.FxApp1</node>
+    <node x="552.0" y="532.0">projeto.Color</node>
+    <node x="-237.80789946140044" y="372.3411131059246">projeto.Bitmap$</node>
+    <node x="517.0" y="608.0">textUserInterface.text</node>
+    <node x="-227.15978456014363" y="240.73429084380612">projeto.MyRandom</node>
+    <node x="162.0" y="228.0">projeto.QEmpty$</node>
+    <node x="145.0" y="456.0">projeto.QLeaf$</node>
+    <node x="475.0" y="228.0">projeto.Section$</node>
+    <node x="-72.17055655296224" y="372.3411131059246">projeto.Bitmap</node>
+    <node x="-227.15978456014363" y="16.563734290843804">projeto.RandomWithState$class</node>
+    <node x="363.0" y="76.0">projeto.QTree$class</node>
+    <node x="289.0" y="456.0">projeto.Coords</node>
+    <node x="-237.80789946140044" y="489.407540394973">projeto.Point</node>
+    <node x="576.0" y="456.0">projeto.Color$</node>
+    <node x="446.0" y="380.0">projeto.Section</node>
+    <node x="306.0" y="304.0">projeto.Coords$</node>
+    <node x="182.0" y="76.0">projeto.MyRandom$</node>
+    <node x="475.0" y="0.0">textUserInterface.textUserInterface</node>
+    <node x="257.0" y="0.0">projeto.RandomWithState</node>
+    <node x="539.0" y="76.0">projeto.QNode</node>
+    <node x="280.0" y="532.0">projeto.Main$</node>
+    <node x="391.0" y="608.0">projeto.Tree</node>
+    <node x="150.0" y="380.0">projeto.Effects$</node>
+    <node x="-237.80789946140044" y="430.8743267504488">projeto.QEmpty</node>
+    <node x="418.0" y="532.0">projeto.Tree$</node>
+    <node x="504.0" y="152.0">frontend.Controller</node>
+    <node x="340.0" y="152.0">frontend.EditorHall</node>
+    <node x="433.0" y="456.0">projeto.Gallery</node>
+    <node x="-160.90484739676833" y="109.12746858168761">projeto.QLeaf</node>
+    <node x="153.0" y="304.0">projeto.QNode$</node>
+    <node x="458.0" y="304.0">projeto.Gallery$</node>
+    <node x="141.0" y="532.0">projeto.Point$</node>
+    <node x="11.0" y="190.0">projeto.ImageUtil</node>
+    <node x="261.0" y="608.0">projeto.Main</node>
+    <node x="-72.17055655296224" y="430.8743267504488">projeto.Effects</node>
+    <node x="173.0" y="152.0">projeto.QTree</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic" zoom="0.8452200303490136" showDependencies="false" x="336.0" y="423.02333931777383" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
