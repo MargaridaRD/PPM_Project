@@ -8,6 +8,7 @@ import projeto.{Effects, Gallery, Tree}
 import java.io.File
 import java.nio.file.Files
 import scala.util.Try
+import java.nio.file.{Files, Paths, StandardCopyOption}
 
 
 
@@ -160,14 +161,28 @@ class Controller {
     }
   }
 
+  def mv(oldName: String, newName: String) =
+    Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
+
+  def moveRenameFile(source: String, destination: String): Unit = {
+    val path = Files.move(
+      Paths.get(source),
+      Paths.get(destination),
+      StandardCopyOption.REPLACE_EXISTING
+    )
+    // could return `path`
+  }
 
   def save():Unit={
     if(FxApp1.isEdited) {
-      Files.copy(new File("temp.png").toPath,new File("out/production/PPM_Project/projeto/img"+name.getText).toPath)
+      //Files.copy(new File("temp.png").toPath,new File("out/production/PPM_Project/projeto/img"+name.getText).toPath)
+    //println(mv("out/production/PPM_Project/temp.png", "out/production/PPM_Project/projeto/img/portrait2.png"))
+      new File("out/production/PPM_Project/temp.png").renameTo(new File("out/production/PPM_Project/projeto/img/portrait2.png"))
+      //Files.move(new File("out/production/PPM_Project/temp.png").toPath, new File("out/production/PPM_Project/projeto/img/portrait4.png").toPath)
+      moveRenameFile("out/production/PPM_Project/temp.png", "out/production/PPM_Project/projeto/img/portrait4.png")
     }
-
-
   }
+
   def cancelar():Unit={
     imageView.setImage(new Image(name.getText))
     val f:File= new File("src/projeto/img/temp.png")

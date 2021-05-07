@@ -1,14 +1,13 @@
 package frontend
+import frontend.FxApp1.writeFile
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
-
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 import projeto.Gallery
 import projeto.Gallery.Album
 
-
-import java.io.{File, FileNotFoundException}
+import java.io.{File, FileNotFoundException, FileWriter}
 import java.util.{ArrayList, Scanner}
 
 
@@ -26,6 +25,14 @@ class EditorHall extends Application {
     primaryStage.setScene(scene)
     primaryStage.show()
   }
+
+  override def stop(): Unit = {
+    val f:File= new File("temp.png")   //apaga o ficheiro temp.png
+    if (f.delete()) Some(f) else None
+    println( "Album: " + FxApp1.album)
+    writeFile(FxApp1.album)
+  }
+
 }
 object FxApp1 {
   var album = create_album()
@@ -66,10 +73,53 @@ object FxApp1 {
     aux(list, gallery)
   }
 
+  def aux(al:Album):Unit= {
+    try {
+      val myWriter: FileWriter = new FileWriter("src/frontend/album.txt")
+      al match {
+        case List() => myWriter.append("")
+        case x :: xs => {
+          myWriter.append(x._2)
+          ola(xs)
+        }
+      }
+      myWriter.close()
+    }
+    catch{
+      case e: FileNotFoundException =>
+        System.err.println("Não encontrou o ficheiro!!")
+        System.exit(1)
+    }
+  }
+
+  def writeFile (album: Album): Unit= {
+    val f:File= new File("src/frontend/album.txt")   //apaga o ficheiro temp.png
+    if (f.delete()) Some(f) else None
+
+    def ola ( al:Album):Unit= {
+      try {
+        val myWriter: FileWriter = new FileWriter("src/frontend/album.txt")
+        al match {
+          case List() => myWriter.append("")
+          case x :: xs => {
+            myWriter.append(x._2)
+            ola(xs)
+          }
+        }
+        myWriter.close()
+      }
+        catch{
+          case e: FileNotFoundException =>
+            System.err.println("Não encontrou o ficheiro!!")
+            System.exit(1)
+        }
+      }
+    ola(album)
+  }
+
+
 
   def main(args: Array[String]): Unit = {
-    val f:File= new File("temp.png")
-    if (f.delete()) Some(f) else None //returns "Maybe" monad
     Application.launch(classOf[EditorHall], args: _*)
 
   }
