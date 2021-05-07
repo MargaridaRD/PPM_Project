@@ -137,6 +137,8 @@ class Controller {
 
 
   }
+
+
   def cancelar():Unit={
     imageView.setImage(new Image(name.getText))
     val f:File= new File("src/projeto/img/temp.png")
