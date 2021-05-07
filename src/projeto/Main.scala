@@ -3,14 +3,19 @@ package projeto
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val tree:Tree= Tree("src/projeto/img/rita.jpeg")
+    val tree:Tree= Tree("src/projeto/img/portrait.png")
     val teste_makeTree = tree.imageToTree()
 //    tree.treeToImage("src/projeto/img/teste.png","png",teste_makeTree)
 
 //    //////Efeitos////////////
     val effects:Effects = Effects(teste_makeTree)
 //    //mirrorV
-//    tree.treeToImage( "src/projeto/img/mirrorV.png", "png",effects.mirrorV())
+    tree.treeToImage( "src/projeto/img/portrait2.png", "png",effects.mirrorV())
+
+    val tree2:Tree= Tree("src/projeto/img/portrait2.png")
+    val teste_makeTree2 = tree2.imageToTree()
+    val effects2:Effects = Effects(teste_makeTree2)
+    tree.treeToImage("src/projeto/img/portrait2.png", "png",effects2.mirrorH())
 //    //mirrorH
 //    tree.treeToImage( "src/projeto/img/mirrorH.png", "png",effects.mirrorH())
 //    //rotateR
@@ -20,7 +25,7 @@ object Main {
 //    //scale
 //    tree.treeToImage( "src/projeto/img/scale.png", "png",effects.scale(0.5))
 //    //sepia
-   tree.treeToImage( "src/projeto/img/sepia.png", "png",effects.mapColorEffect(effects.sepia))
+//   tree.treeToImage( "src/projeto/img/sepia.png", "png",effects.mapColorEffect(effects.sepia))
 //    //noise
 //    tree.treeToImage( "src/projeto/img/noise.png", "png",effects.mapColorEffect(effects.noise))
     //    //contrast
@@ -33,14 +38,14 @@ object Main {
 
 
     ///////Gallery//////////////////////////////////////////////////////////
-    val gallery2:Gallery= Gallery (List())
+    /*val gallery2:Gallery= Gallery (List())
     val gallery1 = Gallery (List((0,"src/projeto/img/rita.jpeg"),(1,"src/projeto/img/objc2_2.png"),(2,"src/projeto/img/objc2_3.png")))
 
     //insert
    val insert1:Gallery=  Gallery(gallery1.insert("src/projeto/img/4cores15_10.png"))
   println("insert: " + insert1)
     val insert2:Gallery=  Gallery(gallery1.insert("src/projeto/img/img.png"))
-    println("insert: " + insert2)
+    println("insert: " + insert2)*/
 
     //delete
     //val delete1=  Gallery(insert1.delete(0))
