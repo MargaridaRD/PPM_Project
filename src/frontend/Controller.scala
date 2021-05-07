@@ -6,6 +6,7 @@ import javafx.scene.image.{Image, ImageView}
 import projeto.{Effects, Gallery, Tree}
 
 import java.io.File
+import scala.util.Try
 
 
 
@@ -68,7 +69,7 @@ class Controller {
       pathText.setVisible(false)
       buttonAddOk.setVisible(false)
       val v: String=pathText.getText.replace("Insira o nome da imagem:","")
-      println("nome: " + v)
+
       FxApp1.album = new Gallery(FxApp1.album).insert("projeto/img/" +v)
       setMainImage(v,FxApp1.album.length-1)
     }
@@ -150,6 +151,8 @@ class Controller {
 
 
   def guardar():Unit={
+    println("ola")
+    Try(new File("temp.png").renameTo(new File("projeto/img/" +name.getText))).getOrElse(false)
 
 
 
