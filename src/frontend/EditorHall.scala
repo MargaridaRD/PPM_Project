@@ -29,10 +29,8 @@ class EditorHall extends Application {
   }
 }
 object FxApp1 {
-
   var album = create_album()
   var isEdited = false
-
   def readFile(s: String): List[String] = {
     var album = List[String]()
     val file = new File(s)
@@ -56,6 +54,7 @@ object FxApp1 {
   def create_album(): Album = {
     val gallery = new Gallery(List())
     val list = readFile("src/frontend/album.txt")
+
     def aux(l: List[String], galleryAux: Gallery): Album = {
       l match {
         case Nil => galleryAux.album
@@ -70,6 +69,8 @@ object FxApp1 {
 
 
   def main(args: Array[String]): Unit = {
+    val f:File= new File("temp.png")
+    if (f.delete()) Some(f) else None //returns "Maybe" monad
     Application.launch(classOf[EditorHall], args: _*)
 
   }
