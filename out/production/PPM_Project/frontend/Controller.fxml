@@ -17,10 +17,10 @@
       <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Label fx:id="name" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+      <Label fx:id="name" alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
       <ImageView fx:id="imageView" cache="true" fitHeight="260.0" fitWidth="583.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <TextField fx:id="pathText" maxWidth="300.0" onMouseClicked="#addImage" text="Insira o nome da imagem:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-      <TextField fx:id="scaleText" maxWidth="200.0" text="Scale value:" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <TextField fx:id="pathText" maxWidth="200.0" onMouseClicked="#addImage" promptText="Insira o nome da imagem" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <TextField fx:id="scaleText" maxWidth="200.0" promptText="Scale value" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <Button fx:id="buttonScaleOk" mnemonicParsing="false" onMouseClicked="#valueOfScale" text="Ok!" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="200.0" />
@@ -109,7 +109,7 @@
             <Insets bottom="5.0" right="80.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="buttonGuardar" mnemonicParsing="false" onMouseClicked="#guardar" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Button fx:id="buttonSave" mnemonicParsing="false" onMouseClicked="#save" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="5.0" right="10.0" />
          </GridPane.margin>

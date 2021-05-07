@@ -7,6 +7,7 @@ import projeto.{Effects, Gallery, Tree}
 
 import java.io.File
 import java.nio.file.Files
+import scala.util.Try
 
 
 
@@ -43,7 +44,7 @@ class Controller {
   @FXML
   private var buttonCancelar: Button =_
   @FXML
-  private var buttonGuardar: Button =_
+  private var buttonSave: Button =_
   @FXML
   private var buttonNext: Button =_
   @FXML
@@ -68,14 +69,13 @@ class Controller {
     if (!pathText.getText.equals("Insira o nome da imagem:")) {
       pathText.setVisible(false)
       buttonAddOk.setVisible(false)
-      val v: String=pathText.getText.replace("Insira o nome da imagem:","")
-      println("nome: " + v)
-      FxApp1.album = new Gallery(FxApp1.album).insert("projeto/img/" +v)
-      setMainImage(v,FxApp1.album.length-1)
+      FxApp1.album = new Gallery(FxApp1.album).insert(pathText.getText)
+      setMainImage(pathText.getText,FxApp1.album.length-1)
+      pathText.setText("")
     }
   }
   def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
-    imageView.setImage(new Image(s))
+    imageView.setImage(new Image("/projeto/img/"+s))
     name.setText(s)
     id.setText(i.toString)
     FxApp1.isEdited=false
@@ -85,20 +85,17 @@ class Controller {
     scaleText.setVisible(true)
     buttonScaleOk.setVisible(true)
   }
-
   def valueOfScale():Unit= {
     if (scaleText.getText.nonEmpty) {
       scaleText.setVisible(false)
       buttonScaleOk.setVisible(false)
-      val v: String=scaleText.getText.replace("Scale value:","")
-      val value: Double = v.toDouble
+      val value: Double = scaleText.getText.toDouble
+      scaleText.setText("")
       val tree: Tree = rightFile
       tree.treeToImage("out/production/PPM_Project/temp.png", "png", Effects(tree.imageToTree()).scale(value))
       imageView.setImage(new Image("temp.png"))
     }
   }
-
-
 
   def onClickRotateR():Unit={
     val tree:Tree= rightFile
@@ -113,6 +110,19 @@ class Controller {
     imageView.setImage(new  Image("temp.png"))
      FxApp1.isEdited=true
 
+  }
+
+  def onClickMirrorH():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mirrorH())
+    imageView.setImage(new  Image("temp.png"))
+    FxApp1.isEdited=true
+  }
+  def onClickMirrorV ():Unit={
+    val tree:Tree= rightFile
+    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mirrorV())
+    imageView.setImage(new  Image("temp.png"))
+    FxApp1.isEdited=true
   }
 
   def onClickSepia():Unit={
@@ -135,6 +145,7 @@ class Controller {
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
   }
+
   def delete():Unit={
     if (!FxApp1.album.isEmpty) {
       FxApp1.album = new Gallery(Gallery(FxApp1.album).delete(id.getText.toInt)).album
@@ -150,11 +161,13 @@ class Controller {
   }
 
 
-  def guardar():Unit={
+  def save():Unit={
+    if(FxApp1.isEdited) {
+      Files.copy(new File("temp.png").toPath,new File("out/production/PPM_Project/projeto/img"+name.getText).toPath)
+    }
+
 
   }
-
-
   def cancelar():Unit={
     imageView.setImage(new Image(name.getText))
     val f:File= new File("src/projeto/img/temp.png")
@@ -162,7 +175,6 @@ class Controller {
     FxApp1.isEdited=false
 
   }
-
 
   def next():Unit={
        if(FxApp1.album.nonEmpty) {
@@ -187,23 +199,12 @@ class Controller {
   }
 
 
-  def onClickMirrorH():Unit={
-    val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mirrorH())
-    imageView.setImage(new  Image("temp.png"))
-    FxApp1.isEdited=true
-  }
-  def onClickMirrorV ():Unit={
-    val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mirrorV())
-    imageView.setImage(new  Image("temp.png"))
-    FxApp1.isEdited=true
-  }
+
   def rightFile () : Tree= {
     if (FxApp1.isEdited) {
       Tree("out/production/PPM_Project/temp.png")
     } else {
-      Tree("out/production/PPM_Project/" + name.getText())
+      Tree("out/production/PPM_Project/projeto/img/" + name.getText())
     }
   }
   
