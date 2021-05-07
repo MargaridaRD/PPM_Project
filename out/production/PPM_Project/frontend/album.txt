@@ -1,2 +1,13 @@
+4cores15_10.png
+13_11.png
+169_300.png
+169x300.png
+batata.png
+img.png
+newName1.jpeg
+noise.png
 objc2_2.png
-13_10.png
+pessoa.png
+portrait.png
+sepia.png
+teste.png

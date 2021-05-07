@@ -35,7 +35,7 @@ class EditorHall extends Application {
 
     def aux ( al:Album):Unit= {
       try {
-        val myWriter: FileWriter = new FileWriter("src/frontend/album.txt")
+        val myWriter: FileWriter = new FileWriter("out/production/PPM_Project/frontend/album.txt")
         for (img <- al) {
           myWriter.write(img._2 + "\n")
         }
@@ -52,7 +52,6 @@ class EditorHall extends Application {
   override def stop(): Unit = {
     val f: File = new File("temp.png") //apaga o ficheiro temp.png
     if (f.delete()) Some(f) else None
-    println("Album: " + FxApp1.album)
     writeFile(FxApp1.album)
   }
 }
@@ -83,7 +82,7 @@ object FxApp1 {
 
   def create_album(): Album = {
     val gallery = new Gallery(List())
-    val list = readFile("src/frontend/album.txt")
+    val list = readFile("out/production/PPM_Project/frontend/album.txt")
 
     def aux(l: List[String], galleryAux: Gallery): Album = {
       l match {

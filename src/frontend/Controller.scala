@@ -71,17 +71,15 @@ class Controller {
   def changeNameOk ():Unit={
     if (name.getText.nonEmpty) {
       buttonNameOK.setVisible(false)
+      println(name.getText)
+      Try(new File("/projeto/img/" +name.getPromptText).renameTo(new File("/projeto/img/" +name.getText)))
       val index1 = FxApp1.album.indexWhere(x => { x._1 == id.getText.toInt } )
-      Try(new File("out/production/PPM_Project/projeto/img/" +name.getPromptText).renameTo(new File("out/production/PPM_Project/projeto/img/" +name.getText())))
-      name.setPromptText(name.getText())
-      FxApp1.album.updated(index1,name.getPromptText)
+      name.setPromptText(name.getText)
+      println(name.getPromptText)
+      FxApp1.album = FxApp1.album.updated(index1,(id.getText.toInt,name.getPromptText))
       name.setText("")
     }
   }
-
-
-
-
 
   def addImage(): Unit ={
     if( FxApp1.isEdited==true) save()
@@ -99,7 +97,7 @@ class Controller {
   }
   def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
     imageView.setImage(new Image("/projeto/img/"+s))
-    name.setText(s)
+    name.setPromptText(s)
     id.setText(i.toString)
     FxApp1.isEdited=false
   }
@@ -187,16 +185,14 @@ class Controller {
   def save():Unit={
     if(FxApp1.isEdited) {
       Files.move(Paths.get("out/production/PPM_Project/temp.png"),
-        Paths.get("out/production/PPM_Project/projeto/img/" + name.getText),
+        Paths.get("out/production/PPM_Project/projeto/img/" + name.getPromptText),
         StandardCopyOption.REPLACE_EXISTING)
     }
     FxApp1.isEdited=false
 
   }
   def cancelar():Unit={
-    imageView.setImage(new Image("/projeto/img/"+name.getText))
-    val f:File= new File("src/projeto/img/temp.png")
-    if (f.delete()) Some(f) else None
+    imageView.setImage(new Image("/projeto/img/"+name.getPromptText))
     FxApp1.isEdited=false
 
   }
@@ -221,18 +217,11 @@ class Controller {
 
   }
 
-  def onClickAdd ():Unit={
-    println("ola do add")
-    FxApp1.isEdited=false
-  }
-
-
-
   def rightFile () : Tree= {
     if (FxApp1.isEdited) {
       Tree("out/production/PPM_Project/temp.png")
     } else {
-      Tree("out/production/PPM_Project/projeto/img/" + name.getText())
+      Tree("out/production/PPM_Project/projeto/img/" + name.getPromptText())
     }
   }
   
