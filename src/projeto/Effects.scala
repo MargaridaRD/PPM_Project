@@ -181,8 +181,7 @@ object Effects {
       case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,nextState), mapColorEffect_1(f,l2,nextState),
         mapColorEffect_1(f,l3,nextState), mapColorEffect_1(f,l4,nextState))
 
-     //case QNode(a, l1, l2, l3, l4)=> QNode(a, mapColorEffect_1(f,l1,nextState), mapColorEffect_1(f,l2,nextState.nextInt(122)._2),
-     //   mapColorEffect_1(f,l3,nextState.nextInt(122)._2.nextInt(122)._2), mapColorEffect_1(f,l4,nextState.nextInt(122)._2.nextInt(122)._2.nextInt(122)._2))
+
     }
   }
 

@@ -26,7 +26,6 @@ class EditorHall extends Application {
     primaryStage.setScene(scene)
     primaryStage.show()
 
-    println("album_start: " + FxApp1.album)
   }
 
 

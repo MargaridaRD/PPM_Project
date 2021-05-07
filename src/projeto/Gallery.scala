@@ -23,12 +23,12 @@ case class Gallery(album:Album){
 object Gallery{
 
 
-  //ver se dá para string
+
    type Image= (Int, String)
    type Album = List[Image]
 
 
-//verificar album
+
   def insert(bm:String, album: Album) : Album={
       album:+(album.length,bm)
   }
@@ -38,12 +38,12 @@ object Gallery{
   }
 
 
-//não mudamos os ids das outras, ver com img== None
+//não mudamos os ids
   def delete (id:Int, album:Album):Album={
     val img = searchImage(id,album)
     album match {
         case Nil => album
-        case x :: xs => if (x._1 == id || img.isEmpty) xs else x :: delete(id, album)
+        case x :: xs => if (x._1 == id || img.isEmpty) xs else x :: delete(id, xs)
       }
   }
 
@@ -60,8 +60,8 @@ object Gallery{
     }
     else album
   }
-//Verificar quando  o album é vazio
-  // sew for a ultima imagem devolve a primeira
+
+  // se for a ultima imagem devolve a primeira
   def next( id:Int, album: Album): Image={
     val index = album.indexWhere(x => { x._1 == id } )
     if(index != -1 && index < album.length-1) album.apply(index +1)

@@ -1,9 +1,8 @@
 package frontend
 
 import javafx.fxml.FXML
-import javafx.scene.control.{Button, Label, MenuItem, TextArea, TextField}
+import javafx.scene.control.{Button, Label, TextField}
 import javafx.scene.image.{Image, ImageView}
-import projeto.Gallery.{Album}
 import projeto.{Effects, Gallery, Tree}
 
 import java.io.File
@@ -24,34 +23,6 @@ class Controller {
   private var id: Label =_
   @FXML
   private var imageView: ImageView =_
-  @FXML
-  private var buttonAdd: Button =_
-  @FXML
-  private var buttonScale: Button =_
-  @FXML
-  private var buttonMirrorV: Button =_
-  @FXML
-  private var buttonMirrorH: Button =_
-  @FXML
-  private var buttonRotateR: Button =_
-  @FXML
-  private var buttonRotateL: Button =_
-  @FXML
-  private var menuItemContrast: MenuItem =_
-  @FXML
-  private var menuItemSepia: MenuItem =_
-  @FXML
-  private var menuItemNoise: MenuItem =_
-  @FXML
-  private var buttonDelete: Button =_
-  @FXML
-  private var buttonCancel: Button =_
-  @FXML
-  private var buttonSave: Button =_
-  @FXML
-  private var buttonNext: Button =_
-  @FXML
-  private var buttonPrevious: Button =_
   @FXML
   private var pathText: TextField =_
   @FXML
@@ -80,7 +51,7 @@ class Controller {
   }
 
   def addImage(): Unit ={
-    if( FxApp1.isEdited==true) save()
+    if( FxApp1.isEdited) save()
     pathText.setVisible(true)
     buttonAddOk.setVisible(true)
   }
@@ -91,7 +62,6 @@ class Controller {
       buttonAddOk.setVisible(false)
       Try {
         setMainImage(pathText.getText,FxApp1.album.length)
-          println("meteu no album")
           FxApp1.album = new Gallery(FxApp1.album).insert(pathText.getText)
       }
       pathText.setText("")
@@ -100,7 +70,7 @@ class Controller {
 
   }
 
-  def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
+  def setMainImage(s: String,i:Int): Unit = {
     imageView.setImage(new Image("/projeto/img/"+s))
     name.setPromptText(s)
     id.setText(i.toString)
@@ -182,7 +152,6 @@ class Controller {
         name.setPromptText("")
       }
     }
-    println("dps do delte" + FxApp1.album)
   }
 
 
@@ -197,14 +166,12 @@ class Controller {
   }
   def cancel():Unit={
     imageView.setImage(new Image("/projeto/img/"+ name.getPromptText))
-    val f:File= new File("src/projeto/img/temp.png")
-    if (f.delete()) Some(f) else None
     FxApp1.isEdited=false
 
   }
 
   def next():Unit={
-    if( FxApp1.isEdited==true) save()
+    if( FxApp1.isEdited) save()
        if(FxApp1.album.nonEmpty) {
          val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
          setMainImage(img._2, img._1)
@@ -212,7 +179,7 @@ class Controller {
 
   }
   def previous():Unit={
-    if( FxApp1.isEdited==true) save()
+    if( FxApp1.isEdited) save()
     if(FxApp1.album.nonEmpty) {
       val img: (Int, String) = Gallery(FxApp1.album).previous(id.getText.toInt)
       setMainImage( img._2, img._1)

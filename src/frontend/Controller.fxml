@@ -103,9 +103,9 @@
             </Button>
          </items>
       </ToolBar>
-      <Button fx:id="buttonCancelar" mnemonicParsing="false" onMouseClicked="#cancel" text="Cancelar" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+      <Button fx:id="buttonCancelar" mnemonicParsing="false" onMouseClicked="#cancel" text="Cancel" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
          <GridPane.margin>
-            <Insets bottom="5.0" right="80.0" />
+            <Insets bottom="5.0" right="60.0" />
          </GridPane.margin>
       </Button>
       <Button fx:id="buttonSave" mnemonicParsing="false" onMouseClicked="#save" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">

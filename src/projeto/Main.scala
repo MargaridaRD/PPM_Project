@@ -39,15 +39,14 @@ object Main {
   val insert1:Gallery=  Gallery(gallery1.insert("src/projeto/img/4cores15_10.png"))
   //println("insert: " + insert1)
 
-    //delete
-    //val delete1=  Gallery(insert1.delete(1))
-    //println("delete1: " + delete1)
+   //delete
+//   val delete1=  Gallery(insert1.delete(1))
+//   println("delete1: " + delete1)
 
-    //searchImage
-    //val searchImage1=  insert1.searchImage(2)
-    //println("searchImage1: " + searchImage1)
-
-      // swapImage n
+   //searchImage
+   //val searchImage1=  insert1.searchImage(2)
+   //println("searchImage1: " + searchImage1)
+   // swapImage n
    // val swapImage1:Gallery=  Gallery(gallery2.swapImage(0,3))
    // println("swapImage1: " + swapImage1)
 
@@ -60,8 +59,8 @@ object Main {
     //println("scroll2: " + scroll2)
 
     //editInformation
-    val edit1= gallery1.editInformation(0,"newName1")
-    println("edit1: " + edit1)
+//    val edit1= gallery1.editInformation(0,"newName1")
+//    println("edit1: " + edit1)
   }
 
 }
