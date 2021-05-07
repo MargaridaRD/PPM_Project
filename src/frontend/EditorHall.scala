@@ -31,8 +31,6 @@ class EditorHall extends Application {
 
 
   def writeFile (album: Album): Unit= {
-
-
     def aux ( al:Album):Unit= {
       try {
         val myWriter: FileWriter = new FileWriter("out/production/PPM_Project/frontend/album.txt")

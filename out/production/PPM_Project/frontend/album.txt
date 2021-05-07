@@ -1,13 +1,4 @@
-4cores15_10.png
-13_11.png
-169_300.png
-169x300.png
-batata.png
+abacate2.png
+gaja.png
 img.png
-newName1.jpeg
-noise.png
-objc2_2.png
-pessoa.png
-portrait.png
-sepia.png
-teste.png
+rita.jpeg
