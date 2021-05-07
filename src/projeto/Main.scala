@@ -3,7 +3,7 @@ package projeto
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val tree:Tree= Tree("src/projeto/img/rita.jpeg")
+    val tree:Tree= Tree("src/projeto/img/newName.jpeg")
     val teste_makeTree = tree.imageToTree()
 //    tree.treeToImage("src/projeto/img/teste.png","png",teste_makeTree)
 
@@ -34,7 +34,7 @@ object Main {
 
     ///////Gallery//////////////////////////////////////////////////////////
    val gallery2:Gallery= Gallery (List())
-    val gallery1 = Gallery (List((0,"src/projeto/img/rita.jpeg"),(1,"src/projeto/img/objc2_2.png"),(2,"src/projeto/img/objc2_3.png")))
+    val gallery1 = Gallery (List((0,"src/projeto/img/newName.jpeg"),(1,"src/projeto/img/objc2_2.png"),(2,"src/projeto/img/objc2_3.png")))
 
     //insert
   val insert1:Gallery=  Gallery(gallery1.insert("src/projeto/img/4cores15_10.png"))
@@ -61,7 +61,7 @@ object Main {
     //println("scroll2: " + scroll2)
 
     //editInformation
-    val edit1= gallery1.editInformation(0,"newName")
+    val edit1= gallery1.editInformation(0,"newName1.jpeg")
     println("edit1: " + edit1)
   }
 
