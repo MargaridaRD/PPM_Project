@@ -50,12 +50,29 @@ class Controller {
   @FXML
   private var pathText: TextField =_
   @FXML
+  private var buttonAddOk: Button =_
+  @FXML
   private var buttonScaleOk: Button =_
   @FXML
   private var scaleText: TextField =_
 
 
 
+
+  def addImage(): Unit ={
+    pathText.setVisible(true)
+    buttonAddOk.setVisible(true)
+  }
+  def addImageOK():Unit={
+    if (!pathText.getText.equals("Insira o nome da imagem:")) {
+      pathText.setVisible(false)
+      buttonAddOk.setVisible(false)
+      val v: String=pathText.getText.replace("Insira o nome da imagem:","")
+      println("nome: " + v)
+      FxApp1.album = new Gallery(FxApp1.album).insert("projeto/img/" +v)
+      setMainImage(v,FxApp1.album.length-1)
+    }
+  }
   def setMainImage(s: String,i:Int): Unit = { //mete a imagem na ImageView
     imageView.setImage(new Image(s))
     name.setText(s)
