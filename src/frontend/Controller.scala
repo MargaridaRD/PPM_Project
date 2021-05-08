@@ -43,6 +43,7 @@ class Controller {
     buttonNameOK.setVisible(false)
     if (name.getText.nonEmpty) {
       new File("out/production/PPM_Project/projeto/img/" + name.getPromptText).renameTo(new File("out/production/PPM_Project/projeto/img/" + name.getText))
+      new File("src/projeto/img/" + name.getPromptText).renameTo(new File("src/projeto/img/" + name.getText))
       val index1 = FxApp1.album.indexWhere(x => { x._1 == id.getText.toInt } )
       name.setPromptText(name.getText)
       FxApp1.album = FxApp1.album.updated(index1,(id.getText.toInt,name.getPromptText))
@@ -62,16 +63,15 @@ class Controller {
       buttonAddOk.setVisible(false)
       Try {
         setMainImage(pathText.getText,FxApp1.album.length)
-          FxApp1.album = new Gallery(FxApp1.album).insert(pathText.getText)
+        FxApp1.album = new Gallery(FxApp1.album).insert(pathText.getText)
       }
       pathText.setText("")
     }
-    println("dps do add" + FxApp1.album)
 
   }
 
   def setMainImage(s: String,i:Int): Unit = {
-    imageView.setImage(new Image("/projeto/img/"+s))
+    imageView.setImage(new Image("projeto/img/"+s))
     name.setPromptText(s)
     id.setText(i.toString)
     FxApp1.isEdited=false
@@ -101,10 +101,10 @@ class Controller {
 
   }
   def onClickRotateL():Unit={
-     val tree:Tree= rightFile
-     tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).rotateL())
+    val tree:Tree= rightFile
+    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).rotateL())
     imageView.setImage(new  Image("temp.png"))
-     FxApp1.isEdited=true
+    FxApp1.isEdited=true
 
   }
 
@@ -158,7 +158,7 @@ class Controller {
   def save():Unit={
     if(FxApp1.isEdited) {
       Files.move(Paths.get("out/production/PPM_Project/temp.png"),
-        Paths.get("out/production/PPM_Project/projeto/img/" + name.getPromptText),
+        Paths.get("src/projeto/img/" + name.getPromptText),
         StandardCopyOption.REPLACE_EXISTING)
     }
     FxApp1.isEdited=false
@@ -172,10 +172,10 @@ class Controller {
 
   def next():Unit={
     if( FxApp1.isEdited) save()
-       if(FxApp1.album.nonEmpty) {
-         val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
-         setMainImage(img._2, img._1)
-       }
+    if(FxApp1.album.nonEmpty) {
+      val img: (Int, String) = Gallery(FxApp1.album).next(id.getText.toInt)
+      setMainImage(img._2, img._1)
+    }
 
   }
   def previous():Unit={
@@ -190,13 +190,13 @@ class Controller {
     if (FxApp1.isEdited) {
       Tree("out/production/PPM_Project/temp.png")
     } else {
-      Tree("out/production/PPM_Project/projeto/img/" + name.getPromptText())
+      Tree("src/projeto/img/" + name.getPromptText())
     }
   }
-  
 
 
 
 
 
-  }
+
+}
