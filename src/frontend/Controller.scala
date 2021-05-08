@@ -42,7 +42,7 @@ class Controller {
   def changeNameOk ():Unit={
     buttonNameOK.setVisible(false)
     if (name.getText.nonEmpty) {
-      new File("out/production/PPM_Project/projeto/img/" + name.getPromptText).renameTo(new File("out/production/PPM_Project/projeto/img/" + name.getText))
+      new File("out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/projeto/img" + name.getPromptText).renameTo(new File("out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/projeto/img" + name.getText))
       new File("src/projeto/img/" + name.getPromptText).renameTo(new File("src/projeto/img/" + name.getText))
       val index1 = FxApp1.album.indexWhere(x => { x._1 == id.getText.toInt } )
       name.setPromptText(name.getText)
@@ -88,21 +88,21 @@ class Controller {
       val value: Double = scaleText.getText.toDouble
       scaleText.setText("")
       val tree: Tree = rightFile
-      tree.treeToImage("out/production/PPM_Project/temp.png", "png", Effects(tree.imageToTree()).scale(value))
+      tree.treeToImage("out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png", Effects(tree.imageToTree()).scale(value))
       imageView.setImage(new Image("temp.png"))
     }
   }
 
   def onClickRotateR():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).rotateR())
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).rotateR())
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
 
   }
   def onClickRotateL():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).rotateL())
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).rotateL())
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
 
@@ -110,34 +110,34 @@ class Controller {
 
   def onClickMirrorH():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mirrorH())
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).mirrorH())
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
   }
   def onClickMirrorV ():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mirrorV())
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).mirrorV())
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
   }
 
   def onClickSepia():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.sepia) )
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.sepia) )
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
 
   }
   def onClickNoise():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.noise))
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.noise))
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
 
   }
   def onClickContrast():Unit={
     val tree:Tree= rightFile
-    tree.treeToImage( "out/production/PPM_Project/temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.contrast))
+    tree.treeToImage( "out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png", "png",Effects(tree.imageToTree()).mapColorEffect(Effects.contrast))
     imageView.setImage(new  Image("temp.png"))
     FxApp1.isEdited=true
   }
@@ -157,7 +157,7 @@ class Controller {
 
   def save():Unit={
     if(FxApp1.isEdited) {
-      Files.move(Paths.get("out/production/PPM_Project/temp.png"),
+      Files.move(Paths.get("out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png"),
         Paths.get("src/projeto/img/" + name.getPromptText),
         StandardCopyOption.REPLACE_EXISTING)
     }
@@ -188,7 +188,7 @@ class Controller {
 
   def rightFile () : Tree= {
     if (FxApp1.isEdited) {
-      Tree("out/production/PPM_Project/temp.png")
+      Tree("out/production/G6_RitaRegada_MargaridaDias_MariaBogalho/temp.png")
     } else {
       Tree("src/projeto/img/" + name.getPromptText())
     }
